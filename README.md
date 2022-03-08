@@ -4,9 +4,9 @@ Repozytorium do dzielenia się testami z IPP
 
 ## Instrukcja dodawania testów
 
-1. Sklonuj repozytorium na swoje konto na Githubie.
+1. Zrób forka repozytorium na swoje konto na Githubie.
 2. Dodaj testy i oczekiwane wyjście do testów w katalogu `testy_labirynt`.
-3. Otwórz pull requesta w tym repozytorium (postaram się jak najszybciej zatwierdzić).
+3. [Otwórz pull requesta](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) w tym repozytorium (postaram się jak najszybciej zatwierdzić).
 
 ## Instrukcja nazywania testów
 
