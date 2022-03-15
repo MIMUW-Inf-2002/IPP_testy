@@ -38,3 +38,8 @@ standardowe,  a `*.err` wyjście stderr.
 - error50 – dane wejściowe mają za dużo linii.
 
 **Studenckie:**
+
+- kwasowski_1 - example1 + zera wiodące w linijkach 1-3 i kodzie hex
+- kwasowski_2 - example1 + ale ma spacje wiodące, między liczbami i na końcu linijki
+- kwasowski_3 - example1 + tabulatory brzydkie
+- kwasowski_4 - example4 + brzydkie wejście (tabulatory, spacje, zera)
