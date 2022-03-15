@@ -19,3 +19,22 @@ Bądź jak Jan Kowalski.
 
 Ważne, żeby pliki dotyczące tych samych testów miały te same nazwy. Plik `*.in` zawiera wejście, `*.out` wyjście
 standardowe,  a `*.err` wyjście stderr.
+
+## Opisy testów
+
+**Oficjalne:**
+
+- example1 – mały labirynt dwuwymiarowy z drogą o długości 12,
+
+- example2 – mały labirynt jednowymiarowy z drogą o długości 5,
+- example3 – mały labirynt trójwymiarowy, ale jeden wymiar jest zdegenerowany, pozycja końcowa jest pozycją początkową,
+- example4 – mały labirynt trójwymiarowy z drogą o długości 4,
+- example5 – duży labirynt jednowymiarowy bez drogi,
+- error00 – ewidentnie za duży labirynt,
+- error10 – rozmiar labiryntu nie może być zerowy,
+- error26 – pozycja (początkowa) musi być w pustej kostce,
+- error30 – współrzędne pozycji (końcowej) muszą być dodatnie,
+- error40 – liczba opisująca położenie ścian ma za dużo bitów,
+- error50 – dane wejściowe mają za dużo linii.
+
+**Studenckie:**
