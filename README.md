@@ -43,3 +43,5 @@ standardowe,  a `*.err` wyjście stderr.
 - kwasowski_2 - example1 + ale ma spacje wiodące, między liczbami i na końcu linijki
 - kwasowski_3 - example1 + tabulatory brzydkie
 - kwasowski_4 - example4 + brzydkie wejście (tabulatory, spacje, zera)
+- kwasowski_5 - (error) pierwsza linijka wejścia zawiera tekst
+- kwasowski_6 - (error) mała litera w hexie i spacja w hexie
