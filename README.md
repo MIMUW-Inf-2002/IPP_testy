@@ -49,4 +49,4 @@ standardowe,  a `*.err` wyjście stderr.
 - Folder etiaro
   - Folder 2D - losowe testy dwuwymiarowe
   - Folder 3D - losowe testy trójwymiarowe
-  - Folder 4-8D - losowe testy 4-8-wymiarowe, dość duże(długi czas wykonywania)
+  - Folder 4-8D - losowe testy 4-8-wymiarowe, niektóre dość duże(długi czas wykonywania)
