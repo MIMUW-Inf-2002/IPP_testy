@@ -45,8 +45,10 @@ standardowe,  a `*.err` wyjście stderr.
 - kwasowski_4 - example4 + brzydkie wejście (tabulatory, spacje, zera)
 - kwasowski_5 - (error) pierwsza linijka wejścia zawiera tekst
 - kwasowski_6 - (error) mała litera w hexie i spacja w hexie
-
+- kwasowski_7 - (error) wymiar labiryntu większy niż `SIZE_MAX`
 - Folder etiaro
   - Folder 2D - losowe testy dwuwymiarowe
   - Folder 3D - losowe testy trójwymiarowe
-  - Folder 4-8D - losowe testy 4-8-wymiarowe, niektóre dość duże(długi czas wykonywania)
+  - Folder 4-8D - losowe testy 4-8-wymiarowe, niektóre dość duże (długi czas wykonywania)
+- Folder rentib
+  - Losowe testy z liczbą opisującą labirynt w zapisie szesnastkowym
