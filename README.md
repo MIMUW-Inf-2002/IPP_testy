@@ -50,4 +50,5 @@ standardowe,  a `*.err` wyjście stderr.
   - Folder 3D - losowe testy trójwymiarowe
   - Folder 4-8D - losowe testy 4-8-wymiarowe, niektóre dość duże (długi czas wykonywania)
 - Folder rentib
-  - Losowe testy z liczbą opisującą labirynt w zapisie szesnastkowym
+  - Folder hex106 - losowe testy z liczbą opisującą labirynt w zapisie szesnastkowym, rozmiar labiryntu nie przekracza znacznie 10^6
+  - Folder hex1018 - losowe testy z liczbą opisującą labirynt w zapisie szesnastkowym, rozmiar labiryntu nie przekracza znacznie 10^18
