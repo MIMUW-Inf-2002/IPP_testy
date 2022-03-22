@@ -1,14 +1,18 @@
 # IPP_testy
 
-Repozytorium do dzielenia się testami z IPP
+Repozytorium do dzielenia się testami z IPP.
 
-## Instrukcja dodawania testów
+1. [Dodawanie testów](#Dodawanie testów)
+2. [Nazywanie testów](#Nazywanie testów)
+3. [Opisy testów (labirynt)](#Opisy testów (labirynt))
+
+## Dodawanie testów
 
 1. Zrób forka repozytorium na swoje konto na Githubie.
-2. Dodaj testy i oczekiwane wyjście do testów w katalogu `testy_labirynt`.
+2. Dodaj testy i oczekiwane wyjście do  katalogu `testy_labirynt`, bądź podkatalogu, jeśli jest ich dużo.
 3. [Otwórz pull requesta](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) w tym repozytorium (postaram się jak najszybciej zatwierdzić).
 
-## Instrukcja nazywania testów
+## Nazywanie testów
 
 Aby uniknąć powtarzających się nazw testów nazwij swoje testy pierwszą literą imienia oraz nazwiskiem.
 
@@ -20,7 +24,7 @@ Bądź jak Jan Kowalski.
 Ważne, żeby pliki dotyczące tych samych testów miały te same nazwy. Plik `*.in` zawiera wejście, `*.out` wyjście
 standardowe,  a `*.err` wyjście stderr.
 
-## Opisy testów
+## Opisy testów (labirynt)
 
 **Oficjalne:**
 
