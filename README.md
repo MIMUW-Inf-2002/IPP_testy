@@ -45,6 +45,8 @@ standardowe,  a `*.err` wyjście stderr.
 - kwasowski_5 - (error) pierwsza linijka wejścia zawiera tekst
 - kwasowski_6 - (error) mała litera i spacja w hexie (mała litera nie jest błędna, spacja owszem)
 - kwasowski_7 - (error) wymiar labiryntu większy niż `SIZE_MAX`
+- kwasowski_8 - (error) trzecia linijka zawiera za mało danych
+- kwasowski_9 - (error) dane z `R` w czwartej linijce są rozdzielone na dwie linijki (czyli jest ich za mało w czwartej linijce)
 - Folder etiaro
   - Folder 2D - losowe testy dwuwymiarowe
   - Folder 3D - losowe testy trójwymiarowe
