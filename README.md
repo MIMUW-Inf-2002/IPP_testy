@@ -38,15 +38,16 @@ standardowe,  a `*.err` wyjście stderr.
 
 **Studenckie:**
 
-- kwasowski_1 - example1 + zera wiodące w linijkach 1-3 i kodzie hex
-- kwasowski_2 - example1 + ale ma spacje wiodące, między liczbami i na końcu linijki
-- kwasowski_3 - example1 + tabulatory brzydkie
-- kwasowski_4 - example4 + brzydkie wejście (tabulatory, spacje, zera)
-- kwasowski_5 - (error) pierwsza linijka wejścia zawiera tekst
-- kwasowski_6 - (error) mała litera i spacja w hexie (mała litera nie jest błędna, spacja owszem)
-- kwasowski_7 - (error) wymiar labiryntu większy niż `SIZE_MAX`
-- kwasowski_8 - (error) trzecia linijka zawiera za mało danych
-- kwasowski_9 - (error) dane z `R` w czwartej linijce są rozdzielone na dwie linijki (czyli jest ich za mało w czwartej linijce)
+- Folder kwasow:
+  - kwasowski_1 - example1 + zera wiodące w linijkach 1-3 i kodzie hex
+  - kwasowski_2 - example1 + ale ma spacje wiodące, między liczbami i na końcu linijki
+  - kwasowski_3 - example1 + tabulatory brzydkie
+  - kwasowski_4 - example4 + brzydkie wejście (tabulatory, spacje, zera)
+  - kwasowski_5 - (error) pierwsza linijka wejścia zawiera tekst
+  - kwasowski_6 - (error) mała litera i spacja w hexie (mała litera nie jest błędna, spacja owszem)
+  - kwasowski_7 - (error) wymiar labiryntu większy niż `SIZE_MAX`
+  - kwasowski_8 - (error) trzecia linijka zawiera za mało danych
+  - kwasowski_9 - (error) dane z `R` w czwartej linijce są rozdzielone na dwie linijki (czyli jest ich za mało w czwartej linijce)
 - Folder etiaro
   - Folder 2D - losowe testy dwuwymiarowe
   - Folder 3D - losowe testy trójwymiarowe
