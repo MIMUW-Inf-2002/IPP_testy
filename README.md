@@ -2,10 +2,6 @@
 
 Repozytorium do dzielenia się testami z IPP.
 
-1. [Dodawanie testów](#Dodawanie testów)
-2. [Nazywanie testów](#Nazywanie testów)
-3. [Opisy testów (labirynt)](#Opisy testów (labirynt))
-
 ## Dodawanie testów
 
 1. Zrób forka repozytorium na swoje konto na Githubie.
