@@ -101,7 +101,7 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
 
 ## Czasy wykonywania
 
-Czasy zmierzone na serwerze `students` przy użyciu komendy `time` (czasy dotyczą czasów `real`).
+Czasy zmierzone na serwerze `students` przy użyciu komendy `time` (czasy dotyczą czasów `real`) **bez valgrinda**.
 
 | Nazwa testu      | Czas      |
 |------------------|-----------|
