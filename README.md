@@ -56,3 +56,4 @@ standardowe,  a `*.err` wyjście stderr.
   - Folder hex106 - losowe testy z liczbą opisującą labirynt w zapisie szesnastkowym, rozmiar labiryntu nie przekracza znacznie 10^6
   - Folder hex1018 - losowe testy z liczbą opisującą labirynt w zapisie szesnastkowym, rozmiar labiryntu nie przekracza znacznie 10^18
   - Folder rnd106 - losowe (potężne) testy z liczbą opisującą labirynt w formie R ..., jest wiele znaków białych, rozmiar labiryntu nie przekracza znacznie 10^6
+  - Folder rnd109 - losowe (potężne) testy z liczbą opisującą labirynt w formie R ..., rozmiar labiryntu nie przekracza znacznie 10^9, aby uniknąć ERROR 0 jest wiele niedużych wymiarów
