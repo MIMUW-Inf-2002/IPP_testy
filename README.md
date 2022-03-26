@@ -115,3 +115,4 @@ Czasy zmierzone na serwerze `students` przy użyciu komendy `time` (czasy dotycz
 | *rentib/hex1018* | 3m28.198  |
 | *rentib/rnd106*  | 16m3.333  |
 | *rentib/hex109*  | 109m4.448 |
+| *wojtekr*        | 0m17,562  |
