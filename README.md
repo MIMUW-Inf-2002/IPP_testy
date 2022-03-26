@@ -23,37 +23,78 @@ standardowe,  a `*.err` wyjście stderr.
 ## Opisy testów (labirynt)
 
 **Oficjalne:**
-
-- example1 – mały labirynt dwuwymiarowy z drogą o długości 12
-- example2 – mały labirynt jednowymiarowy z drogą o długości 5
-- example3 – mały labirynt trójwymiarowy, ale jeden wymiar jest zdegenerowany, pozycja końcowa jest pozycją początkową
-- example4 – mały labirynt trójwymiarowy z drogą o długości 4
-- example5 – duży labirynt jednowymiarowy bez drogi
-- error00 – ewidentnie za duży labirynt
-- error10 – rozmiar labiryntu nie może być zerowy
-- error26 – pozycja (początkowa) musi być w pustej kostce
-- error30 – współrzędne pozycji (końcowej) muszą być dodatnie
-- error40 – liczba opisująca położenie ścian ma za dużo bitów
-- error50 – dane wejściowe mają za dużo linii
-
+<details><summary>Pokaż opisy</summary>
+  <ul>
+    <li> example1 – mały labirynt dwuwymiarowy z drogą o długości 12 </li>
+    <li> example2 – mały labirynt jednowymiarowy z drogą o długości 5 </li>
+    <li> example3 – mały labirynt trójwymiarowy, ale jeden wymiar jest zdegenerowany, pozycja końcowa jest pozycją początkową </li>
+    <li> example4 – mały labirynt trójwymiarowy z drogą o długości 4 </li>
+    <li> example5 – duży labirynt jednowymiarowy bez drogi </li>
+    <li> error00 – ewidentnie za duży labirynt </li>
+    <li> error10 – rozmiar labiryntu nie może być zerowy </li>
+    <li> error26 – pozycja (początkowa) musi być w pustej kostce </li>
+    <li> error30 – współrzędne pozycji (końcowej) muszą być dodatnie </li>
+    <li> error40 – liczba opisująca położenie ścian ma za dużo bitów </li>
+    <li> error50 – dane wejściowe mają za dużo linii </li>
+  </ul>
+</details>
 **Studenckie:**
 
-- Folder kwasow:
-  - kwasowski_1 - example1 + zera wiodące w linijkach 1-3 i kodzie hex
-  - kwasowski_2 - example1 + ale ma spacje wiodące, między liczbami i na końcu linijki
-  - kwasowski_3 - example1 + tabulatory brzydkie
-  - kwasowski_4 - example4 + brzydkie wejście (tabulatory, spacje, zera)
-  - kwasowski_5 - (error) pierwsza linijka wejścia zawiera tekst
-  - kwasowski_6 - (error) mała litera i spacja w hexie (mała litera nie jest błędna, spacja owszem)
-  - kwasowski_7 - (error) wymiar labiryntu większy niż `SIZE_MAX`
-  - kwasowski_8 - (error) trzecia linijka zawiera za mało danych
-  - kwasowski_9 - (error) dane z `R` w czwartej linijce są rozdzielone na dwie linijki (czyli jest ich za mało w czwartej linijce)
-- Folder etiaro
-  - Folder 2D - losowe testy dwuwymiarowe
-  - Folder 3D - losowe testy trójwymiarowe
-  - Folder 4-8D - losowe testy 4-8-wymiarowe, niektóre dość duże (długi czas wykonywania)
-- Folder rentib
-  - Folder hex106 - losowe testy z liczbą opisującą labirynt w zapisie szesnastkowym, rozmiar labiryntu nie przekracza znacznie 10^6
-  - Folder hex1018 - losowe testy z liczbą opisującą labirynt w zapisie szesnastkowym, rozmiar labiryntu nie przekracza znacznie 10^18
-  - Folder rnd106 - losowe (potężne) testy z liczbą opisującą labirynt w formie R ..., jest wiele znaków białych, rozmiar labiryntu nie przekracza znacznie 10^6
-  - Folder rnd109 - losowe (potężne) testy z liczbą opisującą labirynt w formie R ..., rozmiar labiryntu nie przekracza znacznie 10^9, aby uniknąć ERROR 0 jest wiele niedużych wymiarów
+**Uwaga!** *Niektóre z tych testów zwracją inne kody blędów niż testy oficjalne. W szczególności, gdy testy zwracają
+`ERROR 0` dla zbyt dużego labiryntu te testy mogą uważać `ERROR 1` za poprawne wyjście (ponieważ iloczyn wymiarów jest
+większy niż `SIZE_MAX`). Podobnie gdy testy oficjalne zwracają `ERROR 2/3`, ponieważ początek/koniec są w niepustej kostce, niektóre
+z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce). Nie należy się tym przejmować.*
+
+<details><summary>Folder kwasow</summary>
+  <ul>
+    <li> kwasowski_1 - example1 + zera wiodące w linijkach 1-3 i kodzie hex </li>
+    <li> kwasowski_2 - example1 + ale ma spacje wiodące, między liczbami i na końcu linijki </li>
+    <li> kwasowski_3 - example1 + tabulatory brzydkie </li>
+    <li> kwasowski_4 - example4 + brzydkie wejście (tabulatory, spacje, zera) </li>
+    <li> kwasowski_5 - (error) pierwsza linijka wejścia zawiera tekst </li>
+    <li> kwasowski_6 - (error) mała litera i spacja w hexie (mała litera nie jest błędna, spacja owszem) </li>
+    <li> kwasowski_7 - (error) wymiar labiryntu większy niż `SIZE_MAX` </li>
+    <li> kwasowski_8 - (error) trzecia linijka zawiera za mało danych </li>
+    <li> kwasowski_9 - (error) dane z `R` w czwartej linijce są rozdzielone na dwie linijki (czyli jest ich za mało w czwartej linijce) </li>
+  </ul>
+</details>
+
+<details><summary>Folder etiaro</summary>
+  <ul>
+    <li> Folder 2D - losowe testy dwuwymiarowe
+    <li> Folder 3D - losowe testy trójwymiarowe
+    <li> Folder 4-8D - losowe testy 4-8-wymiarowe, niektóre dość duże (długi czas wykonywania)
+  </ul>
+</details>
+
+<details><summary>Folder rentlib</summary>
+  <ul>
+    <li> Folder hex106 - losowe testy z liczbą opisującą labirynt w zapisie szesnastkowym, rozmiar labiryntu nie przekracza znacznie 10^6
+    <li> Folder hex1018 - losowe testy z liczbą opisującą labirynt w zapisie szesnastkowym, rozmiar labiryntu nie przekracza znacznie 10^18
+    <li> Folder rnd106 - losowe (potężne) testy z liczbą opisującą labirynt w formie R ..., jest wiele znaków białych, rozmiar labiryntu nie przekracza znacznie 10^6
+    <li> Folder rnd109 - losowe (potężne) testy z liczbą opisującą labirynt w formie R ..., rozmiar labiryntu nie przekracza znacznie 10^9, aby uniknąć ERROR 0 jest wiele niedużych wymiarów
+  </ul>
+</details>
+
+<details><summary>Folder wojtekr</summary>
+  <ul>
+    <li> zly01 - 3. linijka położenie większe niż wymiar
+    <li> zly02 - 2. linijka położenie większe niż wymiar
+    <li> zly03 - 2. linijka liczba za dużo
+    <li> zly04 - 3. linijka pusta
+    <li> zly05 - 2. linijka pusta
+    <li> zly06 - 4. linijka niepoprawna
+    <li> zly07 - 4. lnijka liczba za dużo
+    <li> zly08 - 4. liijka liczba za mało
+    <li> zly09 - 4. linijka pusta
+    <li> zly10 - 2. linijka zawiera 0
+    <li> zly11 - 3. linijka zawiera 0
+    <li> zly12 - 5. linijka istnieje w 0x
+    <li> zly13 - 5. linijka istnieje w R
+    <li> zly14 - 4. linijka dodatkowy znak
+    <li> zly15 - 2. linijka pozycja w kostce
+    <li> zly16 - 4. linijka zawiera znak nie hexowy
+    <li> zly17 - 3. linijka pozycja w kostce
+    <li> zly18 - 4. linijka liczba R ponad UINT32_MAX
+  </ul>
+</details>
