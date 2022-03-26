@@ -98,3 +98,19 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
     <li> zly18 - 4. linijka liczba R ponad UINT32_MAX
   </ul>
 </details>
+## Czasy wykonywania
+
+Czasy zmierzone na serwerze `students` przy użyciu komendy `time` (czasy dotyczą czasów `real`).
+
+| Nazwa testu      | Czas      |
+|------------------|-----------|
+| *Oficjalne*      | 0m1.091   |
+| *kwasow*         | 0m0.222   |
+| *etiaro/1D*      | 0m10.388  |
+| *etiaro/2D*      | 0m10.982  |
+| *etiaro/3D*      | 0m6.838   |
+| *etiaro/4-8D*    | 2m11.267  |
+| *rentib/hex106*  | 0m41.980  |
+| *rentib/hex1018* | 3m28.198  |
+| *rentib/rnd106*  | 16m3.333  |
+| *rentib/hex109*  | 109m4.448 |
