@@ -56,6 +56,7 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
     <li> kwasowski_7 - (error) wymiar labiryntu większy niż `SIZE_MAX` </li>
     <li> kwasowski_8 - (error) trzecia linijka zawiera za mało danych </li>
     <li> kwasowski_9 - (error) dane z `R` w czwartej linijce są rozdzielone na dwie linijki (czyli jest ich za mało w czwartej linijce) </li>
+    <li> kwasowski_10 - (error) spacje między `0x`, a hexem
   </ul>
 </details>
 
