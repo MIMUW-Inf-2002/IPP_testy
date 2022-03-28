@@ -100,6 +100,12 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
   </ul>
 </details>
 
+
+<details><summary>Folder tsh_h_50mln</summary>
+  <ul>
+ Kilka testów 3D o wymiarach 10000 x 10000 x 4 o tak dobranej trasie od startu do końca aby jej przebycie wymagało przejścia około 50 milionów kostek
+  </ul>
+</details>
 ## Czasy wykonywania
 
 Czasy zmierzone na serwerze `students` przy użyciu komendy `time` (czasy dotyczą czasów `real`) **bez valgrinda**.
