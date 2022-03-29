@@ -38,6 +38,7 @@ standardowe,  a `*.err` wyjście stderr.
     <li> error50 – dane wejściowe mają za dużo linii </li>
   </ul>
 </details>
+
 **Studenckie:**
 
 **Uwaga!** *Niektóre z tych testów zwracją inne kody blędów niż testy oficjalne. W szczególności, gdy testy zwracają
