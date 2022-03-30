@@ -101,6 +101,20 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
   </ul>
 </details>
 
+<details><summary>Folder fuchczyk</summary>
+  <ul>
+    <li> pfuchs1 - Brak 2. linijki (EOF w pierwszej) </li>
+    <li> pfuchs2 - Niepoprawna 2. linijka (tylko EOF) </li>
+    <li> pfuchs3 - Niepoprawna 1. linijka (pusta - tylko EOF) </li>
+    <li> pfuchs4 - Brak 1. linijki (tylko EOF) </li>
+    <li> pfuchs5 - Niepoprawna 3. linijka (pusta - tylko EOF) </li>
+    <li> pfuchs6 - Brak 3. linijki (EOF w drugiej) </li>
+    <li> pfuchs7 - Brak 4. linijki (EOF w trzeciej) </li>
+    <li> pfuchs8 - Niepoprawna 4. linijka (pusta - tylko EOF) </li>
+    <li> pfuchs9 - Pomieszanie formatów: rozpoczęcie od "0R"
+  </ul>
+</details>
+
 <details><summary>Folder tsh_h_50mln</summary>
  Kilka testów 3D o wymiarach 10000 x 10000 x 4 o tak dobranej trasie od startu do końca aby jej przebycie wymagało przejścia około 50 milionów kostek
 </details>
