@@ -38,6 +38,7 @@ standardowe,  a `*.err` wyjście stderr.
     <li> error50 – dane wejściowe mają za dużo linii </li>
   </ul>
 </details>
+
 **Studenckie:**
 
 **Uwaga!** *Niektóre z tych testów zwracją inne kody blędów niż testy oficjalne. W szczególności, gdy testy zwracają
@@ -124,9 +125,9 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
 Czasy zmierzone na serwerze `students` przy użyciu komendy `time` (czasy dotyczą czasów `real`) **bez valgrinda**.
 
 | Nazwa testu      | Czas      |
-|------------------|-----------|
+| ---------------- | --------- |
 | *Oficjalne*      | 0m1.091   |
-| *kwasow*         | 0m0.222   |
+| *kwasow*         | 0m0.250   |
 | *etiaro/1D*      | 0m10.388  |
 | *etiaro/2D*      | 0m10.982  |
 | *etiaro/3D*      | 0m6.838   |
@@ -135,5 +136,6 @@ Czasy zmierzone na serwerze `students` przy użyciu komendy `time` (czasy dotycz
 | *rentib/hex1018* | 3m28.198  |
 | *rentib/rnd106*  | 16m3.333  |
 | *rentib/hex109*  | 109m4.448 |
-| *wojtekr*        | 0m17,562  |
-| *tsh_h_50mln*    | 0m56,014  |
+| *wojtekr*        | 0m17.562  |
+| *tsh_h_50mln*    | 0m56.014  |
+| *fuchczyk*       | 0m0.170   |
