@@ -87,8 +87,8 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
     <li> zly04 - 3. linijka pusta
     <li> zly05 - 2. linijka pusta
     <li> zly06 - 4. linijka niepoprawna
-    <li> zly07 - 4. lnijka liczba za dużo
-    <li> zly08 - 4. liijka liczba za mało
+    <li> zly07 - 4. linijka liczba za dużo
+    <li> zly08 - 4. linijka liczba za mało
     <li> zly09 - 4. linijka pusta
     <li> zly10 - 2. linijka zawiera 0
     <li> zly11 - 3. linijka zawiera 0
@@ -99,6 +99,11 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
     <li> zly16 - 4. linijka zawiera znak nie hexowy
     <li> zly17 - 3. linijka pozycja w kostce
     <li> zly18 - 4. linijka liczba R ponad UINT32_MAX
+    <li> zly19 - 4. linijka m jest zerem
+    <li> zly20 - 4. linijka spacja po x
+    <li> zly21 - 4. linijka spacja po 0
+    <li> test12 - 4. linijka liczymy liczby do r włącznie
+    <li> test13 - 4. linijka liczby mogą być zerami
   </ul>
 </details>
 
