@@ -116,9 +116,12 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
   </ul>
 </details>
 
-<details><summary>Folder tsh_h_50mln</summary>
- Kilka testów 3D o wymiarach 10000 x 10000 x 4 o tak dobranej trasie od startu do końca aby jej przebycie wymagało przejścia około 50 milionów kostek
-</details>
+<details><summary>Folder az</summary>
+  <ul>
+    <li> Folder tsh_h_50mln -  Kilka testów 3D o wymiarach 10000 x 10000 x 4 o tak dobranej trasie od startu do końca aby jej przebycie wymagało przejścia około 50 milionów kostek
+    <li> Folder a - 64 testy o liczbie wymiarów 1,2, ... ,64. Rozmiar każdego wymiaru jest równy 2. W każdym są tylko puste kostki. Start i koniec tak dobrane aby długość trasy była równa liczbie wymiarów.
+    <li> Folder b - 64 testy o liczbie wymiarów 1,2, ... ,64. Rozmiar każdego wymiaru jest równy 2. W każdym są tylko puste kostki. Start i koniec w tej samej kostce.
+  </ul>
 
 ## Czasy wykonywania
 
