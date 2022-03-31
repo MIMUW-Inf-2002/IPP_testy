@@ -1,0 +1,33 @@
+==4556== 200 bytes in 1 blocks are still reachable in loss record 1 of 5
+==4556==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4556==    by 0x10A964: init_lekser (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x109389: main (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556== 
+==4556== 512 bytes in 1 blocks are still reachable in loss record 2 of 5
+==4556==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4556==    by 0x10B32E: push_vector (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x10B598: load_vector (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x10A20C: load_labirynt (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x109398: main (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556== 
+==4556== 512 bytes in 1 blocks are still reachable in loss record 3 of 5
+==4556==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4556==    by 0x10B32E: push_vector (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x10A0BC: wielkosc_labiryntu (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x10A270: load_labirynt (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x109398: main (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556== 
+==4556== 512 bytes in 1 blocks are still reachable in loss record 4 of 5
+==4556==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4556==    by 0x10B32E: push_vector (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x10B598: load_vector (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x10A28F: load_labirynt (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x109398: main (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556== 
+==4556== 512 bytes in 1 blocks are still reachable in loss record 5 of 5
+==4556==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4556==    by 0x10B32E: push_vector (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x10B598: load_vector (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x10A36B: load_labirynt (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556==    by 0x109398: main (in /home/alefzero/cpp/mimuw/littletask/littletask)
+==4556== 
