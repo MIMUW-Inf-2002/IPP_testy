@@ -154,6 +154,13 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
     <li> Folder b - 64 testy o liczbie wymiarów 1,2, ... ,64. Rozmiar każdego wymiaru jest równy 2. W każdym są tylko puste kostki. Start i koniec w tej samej kostce.
   </ul>
 </details>
+  
+<details><summary>Folder correctErrorHandling</summary>
+  <ul>
+    <li> Proste testy sprawdzające poprawność wejśćia.
+    <li> UWAGA !!! EOF na końcu linij traktujemy jako błąd tej linii. Oraz jeśli jest ściana na pozycji strtowej, zwracamy ERROR 2, analogicznie dla pozycji końcowej. (Jeśli ktoś zwraca to jako błąd w kolejnej linijce, to powinien mieć poprawne wszystkie testy oprócz stu).
+  </ul>
+</details>
 
 #### 4. Czasy wykonywania
 
