@@ -2,13 +2,39 @@
 
 Repozytorium do dzielenia się testami z IPP.
 
-## Dodawanie testów
+## Testy forward
+
+#### 1. Tworzenie testów
+
+Tworzenie testów polega na napisaniu funkcji main, która będzie korzystała z funkcji zdefiniowanych w module `phone_forward.h` - podobnie do przykładowego pliku `phone_forward_example.c`. Testy nie powinny korzystać z żadnych modułów poza `phone_forward.h` oraz biblioteki standardowej i powinny sprawdzać zgodność wyniku funkcją `assert()`.
+
+Plik nagłówkowy umieszczony jest w folderze: `testy_forward_1/phone_forward.h` i testy powinny być umieszczone w tym samym folderze.
+
+Ewentualne komentarze do testów powinny znaleźć się w funkcji main danego testu.
+
+Wszystkie testy (plik z funkcją main) od jednego autora powinny znajdować się w jednym pliku, żeby uniknąć bałaganu.
+
+#### 2. Testowanie
+
+Aby rozpocząć testowanie należy uruchomić skrypt testujący, znajdujący się w katalogu głównym repozytorium, który jako argument przyjmuje katalog z kodem źródłowym  w następujący sposób:
+
+`./test_forward_1.sh <path/to/src>`
+
+Skrypt kompiluje źródła oraz wszystkie testy, a następnie uruchamia je i mierzy czas wykonywania.
+
+Po zakończeniu testów można usunąć wszystkie skompilowane pliki poleceniem:
+
+`./test_forward_1.sh -c`
+
+## Testy labirynt
+
+#### 1. Dodawanie testów
 
 1. Zrób forka repozytorium na swoje konto na Githubie.
 2. Dodaj testy i oczekiwane wyjście do  katalogu `testy_labirynt`, bądź podkatalogu, jeśli jest ich dużo.
 3. [Otwórz pull requesta](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) w tym repozytorium (postaram się jak najszybciej zatwierdzić).
 
-## Nazywanie testów
+#### 2. Nazywanie testów
 
 Aby uniknąć powtarzających się nazw testów nazwij swoje testy pierwszą literą imienia oraz nazwiskiem.
 
@@ -20,7 +46,7 @@ Bądź jak Jan Kowalski.
 Ważne, żeby pliki dotyczące tych samych testów miały te same nazwy. Plik `*.in` zawiera wejście, `*.out` wyjście
 standardowe,  a `*.err` wyjście stderr.
 
-## Opisy testów (labirynt)
+#### 3. Opisy testów (labirynt)
 
 **Oficjalne:**
 <details><summary>Pokaż opisy</summary>
@@ -128,7 +154,7 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
     <li> Folder b - 64 testy o liczbie wymiarów 1,2, ... ,64. Rozmiar każdego wymiaru jest równy 2. W każdym są tylko puste kostki. Start i koniec w tej samej kostce.
   </ul>
 
-## Czasy wykonywania
+#### 4. Czasy wykonywania
 
 Czasy zmierzone na serwerze `students` przy użyciu komendy `time` (czasy dotyczą czasów `real`) **bez valgrinda**.
 
