@@ -13,7 +13,7 @@ print_usage() {
 }
 
 clean() {
-	echo Removing test files...
+	echo "Removing test files..."
 	rm -f $TEST_DIR/*.o
 }
 
@@ -45,6 +45,7 @@ fi
 
 # Compile and run tests
 SRC_FILES=()
+
 for SRC_FILE in $SRC_DIR/*.c
 do
 	SRC_FILE_NAME=$(basename -- "$SRC_FILE")
