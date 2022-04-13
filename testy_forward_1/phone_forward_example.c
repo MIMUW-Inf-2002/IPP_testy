@@ -5,10 +5,18 @@
 #include "phone_forward.h"
 #include <assert.h>
 #include <string.h>
+#include <stdio.h>
 
 #define MAX_LEN 23
 
-int main() {
+int main(int argc, char **argv) {
+	bool testReverse = true;
+
+	if (argc != 0) {
+		if (strcmp(argv[0], "s"))
+			testReverse = false;
+	}
+
   char num1[MAX_LEN + 1], num2[MAX_LEN + 1];
   PhoneForward *pf;
   PhoneNumbers *pnum;
@@ -55,22 +63,28 @@ int main() {
   assert(strcmp(phnumGet(pnum, 0), "433") == 0);
   phnumDelete(pnum);
 
-  pnum = phfwdReverse(pf, "432");
-  assert(strcmp(phnumGet(pnum, 0), "431") == 0);
-  assert(strcmp(phnumGet(pnum, 1), "432") == 0);
-  assert(phnumGet(pnum, 2) == NULL);
+	if (testReverse) {
+		pnum = phfwdReverse(pf, "432");
+		assert(strcmp(phnumGet(pnum, 0), "431") == 0);
+		assert(strcmp(phnumGet(pnum, 1), "432") == 0);
+		assert(phnumGet(pnum, 2) == NULL);
+  }
   phnumDelete(pnum);
 
-  pnum = phfwdReverse(pf, "433");
-  assert(strcmp(phnumGet(pnum, 0), "432") == 0);
-  assert(strcmp(phnumGet(pnum, 1), "433") == 0);
-  assert(phnumGet(pnum, 2) == NULL);
+	if (testReverse) {
+		pnum = phfwdReverse(pf, "433");
+		assert(strcmp(phnumGet(pnum, 0), "432") == 0);
+		assert(strcmp(phnumGet(pnum, 1), "433") == 0);
+		assert(phnumGet(pnum, 2) == NULL);
+  }
   phnumDelete(pnum);
 
-  pnum = phfwdReverse(pf, "987654321");
-  assert(strcmp(phnumGet(pnum, 0), "12387654321") == 0);
-  assert(strcmp(phnumGet(pnum, 1), "987654321") == 0);
-  assert(phnumGet(pnum, 2) == NULL);
+	if (testReverse) {
+		pnum = phfwdReverse(pf, "987654321");
+		assert(strcmp(phnumGet(pnum, 0), "12387654321") == 0);
+		assert(strcmp(phnumGet(pnum, 1), "987654321") == 0);
+		assert(phnumGet(pnum, 2) == NULL);
+  }
   phnumDelete(pnum);
 
   phfwdRemove(pf, "12");
@@ -79,18 +93,22 @@ int main() {
   assert(strcmp(phnumGet(pnum, 0), "123456") == 0);
   phnumDelete(pnum);
 
-  pnum = phfwdReverse(pf, "987654321");
-  assert(strcmp(phnumGet(pnum, 0), "987654321") == 0);
-  assert(phnumGet(pnum, 1) == NULL);
+	if (testReverse) {
+		pnum = phfwdReverse(pf, "987654321");
+		assert(strcmp(phnumGet(pnum, 0), "987654321") == 0);
+		assert(phnumGet(pnum, 1) == NULL);
+  }
   phnumDelete(pnum);
 
   assert(phfwdAdd(pf, "567", "0") == true);
   assert(phfwdAdd(pf, "5678", "08") == true);
 
-  pnum = phfwdReverse(pf, "08");
-  assert(strcmp(phnumGet(pnum, 0), "08") == 0);
-  assert(strcmp(phnumGet(pnum, 1), "5678") == 0);
-  assert(phnumGet(pnum, 2) == NULL);
+	if (testReverse) {
+		pnum = phfwdReverse(pf, "08");
+		assert(strcmp(phnumGet(pnum, 0), "08") == 0);
+		assert(strcmp(phnumGet(pnum, 1), "5678") == 0);
+		assert(phnumGet(pnum, 2) == NULL);
+  }
   phnumDelete(pnum);
 
   assert(phfwdAdd(pf, "A", "1") == false);
@@ -103,8 +121,10 @@ int main() {
   assert(phnumGet(pnum, 0) == NULL);
   phnumDelete(pnum);
 
-  pnum = phfwdReverse(pf, "A");
-  assert(phnumGet(pnum, 0) == NULL);
+	if (testReverse) {
+		pnum = phfwdReverse(pf, "A");
+		assert(phnumGet(pnum, 0) == NULL);
+  }
   phnumDelete(pnum);
 
   phfwdAdd(pf, "12", "123");
@@ -114,11 +134,13 @@ int main() {
 
   phfwdAdd(pf, "2", "4");
   phfwdAdd(pf, "23", "4");
-  pnum = phfwdReverse(pf, "434");
-  assert(strcmp(phnumGet(pnum, 0), "2334") == 0);
-  assert(strcmp(phnumGet(pnum, 1), "234") == 0);
-  assert(strcmp(phnumGet(pnum, 2), "434") == 0);
-  assert(phnumGet(pnum, 3) == NULL);
+  if (testReverse) {
+		pnum = phfwdReverse(pf, "434");
+		assert(strcmp(phnumGet(pnum, 0), "2334") == 0);
+		assert(strcmp(phnumGet(pnum, 1), "234") == 0);
+		assert(strcmp(phnumGet(pnum, 2), "434") == 0);
+		assert(phnumGet(pnum, 3) == NULL);
+  }
   phnumDelete(pnum);
 
   phfwdDelete(pf);
@@ -135,9 +157,11 @@ int main() {
   pnum = phfwdGet(pf, "7581");
   assert(strcmp(phnumGet(pnum, 0), "7581") == 0);
   phnumDelete(pnum);
-  pnum = phfwdReverse(pf, "7581");
-  assert(strcmp(phnumGet(pnum, 0), "7581") == 0);
-  assert(phnumGet(pnum, 1) == NULL);
+  if (testReverse) {
+		pnum = phfwdReverse(pf, "7581");
+		assert(strcmp(phnumGet(pnum, 0), "7581") == 0);
+		assert(phnumGet(pnum, 1) == NULL);
+  }
   phnumDelete(pnum);
   phfwdDelete(pf);
 }

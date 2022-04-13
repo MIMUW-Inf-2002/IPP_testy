@@ -14,17 +14,27 @@ Ewentualne komentarze do testów powinny znaleźć się w funkcji main danego te
 
 Wszystkie testy (plik z funkcją main) od jednego autora powinny znajdować się w jednym pliku, żeby uniknąć bałaganu.
 
+Jeśli test sprawdza też działanie funkcji `phfwdReverse()` to powinien przyjmować jako argument parameter `s` w następujący sposób:
+
+`./testy.o s`
+
+i jeżeli parametr został podany, to powinny pominąć testy tej funkcji. Przykład jak to zrobić znajduje się w pliku `phone_forward_example.c`.
+
 #### 2. Testowanie
 
 Aby rozpocząć testowanie należy uruchomić skrypt testujący, znajdujący się w katalogu głównym repozytorium, który jako argument przyjmuje katalog z kodem źródłowym  w następujący sposób:
 
-`./test_forward_1.sh <path/to/src>`
+```
+Usage: ./test_forward_1.sh [-csh] <path/to/src>
+
+	-h	show this help message
+	-c	remove test files
+	-s	skip tests for phfwdReverse()
+```
 
 Skrypt kompiluje źródła oraz wszystkie testy, a następnie uruchamia je i mierzy czas wykonywania.
 
-Po zakończeniu testów można usunąć wszystkie skompilowane pliki poleceniem:
-
-`./test_forward_1.sh -c`
+*Parametry `-c -s -h` są opcjonalne.*
 
 ## Testy labirynt
 
@@ -154,7 +164,7 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
     <li> Folder b - 64 testy o liczbie wymiarów 1,2, ... ,64. Rozmiar każdego wymiaru jest równy 2. W każdym są tylko puste kostki. Start i koniec w tej samej kostce.
   </ul>
 </details>
-  
+
 <details><summary>Folder correctErrorHandling</summary>
   <ul>
     <li> Proste testy sprawdzające poprawność wejśćia.
