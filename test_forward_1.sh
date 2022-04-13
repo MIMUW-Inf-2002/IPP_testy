@@ -22,7 +22,7 @@ clean() {
 	rm -f $TEST_DIR/*.o
 }
 
-# Check clean flag
+# Check flags
 while getopts 'chs' FLAG; do
 	case "${FLAG}" in
 		c) clean
