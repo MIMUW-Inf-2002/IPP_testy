@@ -7,9 +7,14 @@ TEST_DIR="testy_forward_1"
 BOLD=$(tput bold)
 NORMAL=$(tput sgr0)
 
+SKIP_REV_FLAG=""
+
 # Function definitions
 print_usage() {
-	echo "Usage: $0 [-c] <path/to/src>"
+	echo -e "Usage: $0 [-csh] <path/to/src>\n"
+	echo -e "\t-h\tshow this help message"
+	echo -e "\t-c\tremove test files"
+	echo -e "\t-s\tskip tests for phfwdReverse()\n"
 }
 
 clean() {
@@ -18,23 +23,32 @@ clean() {
 }
 
 # Check clean flag
-while getopts 'c' FLAG; do
+while getopts 'chs' FLAG; do
 	case "${FLAG}" in
 		c) clean
 			 exit 0;;
+		h) print_usage
+			 exit 0;;
+		s) SKIP_REV_FLAG="s";;
 		*) print_usage
 			 exit 1;;
 	esac
 done
 
 # Check number of arguments
-if [ $# != 1 ]
+if [[ $# != 1 && !($1 == "-s" && $# == 2) ]]
 then
 	print_usage
 	exit 1
 fi
 
-SRC_DIR=$1
+SRC_DIR=${!#}
+
+# Notify user if skipping tests
+if [[ $SKIP_REV_FLAG == "s" ]]
+then
+	echo -e "Skipping tests for phfwdReverse() this time\n"
+fi
 
 # Check if SRC_DIR exists
 if [ ! -d $PROG ]
@@ -67,5 +81,5 @@ do
 		exit 1
 	fi
 
-	time ./${TEST%.c}.o
+	time ./${TEST%.c}.o $SKIP_REV_FLAG
 done
