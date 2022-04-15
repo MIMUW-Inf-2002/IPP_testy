@@ -36,6 +36,16 @@ Skrypt kompiluje źródła oraz wszystkie testy, a następnie uruchamia je i mie
 
 *Parametry `-c -s -h` są opcjonalne.*
 
+### 3. Opisy testów (forward)
+**Studenckie:**
+
+<details><summary>Folder rentib</summary>
+  <ul>
+    <li> Folder AddRemoveGetBasic - losowe proste testy sprawdzające funkcje phfwdAdd, phfwdRemove i phfwdGet. Numery składają się jedynie z cyfr [0-2] i mają maksymalnie długość 5 </li>
+  </ul>
+</details>
+
+
 ## Testy labirynt
 
 #### 1. Dodawanie testów
@@ -106,7 +116,7 @@ z tych testów mogą zwracać `ERROR 4` (niepoprawna liczba w czwartej linijce).
   </ul>
 </details>
 
-<details><summary>Folder rentlib</summary>
+<details><summary>Folder rentib</summary>
   <ul>
     <li> Folder hex106 - losowe testy z liczbą opisującą labirynt w zapisie szesnastkowym, rozmiar labiryntu nie przekracza znacznie 10^6
     <li> Folder hex1018 - losowe testy z liczbą opisującą labirynt w zapisie szesnastkowym, rozmiar labiryntu nie przekracza znacznie 10^18
