@@ -12,7 +12,6 @@ void add_till_memory_ends(PhoneForward * pf);
 void test_memory_allocation_failure(bool testReverse);
 
 int main(int argc, char **argv) {
-    return 0;
     #define MEM_LIMIT 320000000 // 320 Mb
     // Ustawiamy limit pamięci
     // Jeśli Valgrind odpala errory, to warto spróbować zwiększyć ten limit
