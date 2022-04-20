@@ -12,7 +12,7 @@
 int main(int argc, char **argv) {
 	bool testReverse = true;
 
-	if (argc != 0) {
+	if (argc != 1) {
 		if (strcmp(argv[0], "s"))
 			testReverse = false;
 	}
