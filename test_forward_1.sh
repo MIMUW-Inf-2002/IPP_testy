@@ -66,14 +66,14 @@ do
 	
 	if [ $SRC_FILE_NAME != "phone_forward_example.c" ]
 	then
-		SRC_FILES+=$SRC_FILE
+		SRC_FILES+="${SRC_FILE} "
 	fi
 done
 
 for TEST in $TEST_DIR/*.c
 do
 	echo -e "${BOLD}========= Running test ${TEST} =========${NORMAL}\n"
-	$CC $CFLAGS -o ${TEST%.c}.o $TEST $SRC_FILES >/dev/null 2>&1
+	$CC $CFLAGS -o ${TEST%.c}.o $TEST $SRC_FILES >/dev/null 
 	
 	if [ $? != 0 ]
 	then
