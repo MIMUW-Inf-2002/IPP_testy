@@ -7,14 +7,7 @@
 #include <string.h>
 #include <assert.h>
 
-int main(int argc, char **argv) {
-    bool testReverse = true;
-
-    if (argc != 0) {
-        if (strcmp(argv[0], "s"))
-            testReverse = false;
-    }
-
+int main(void) {
     //      UWAGA, TEN TEST NIE JEST WYDAJNOŚCIOWY!!!!!!!!!
     //      NIE PRZEJMUJCIE SIĘ CZASAMI
 
