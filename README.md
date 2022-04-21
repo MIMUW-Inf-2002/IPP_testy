@@ -6,23 +6,33 @@ Repozytorium do dzielenia się testami z IPP.
 
 #### 1. Tworzenie testów
 
-Tworzenie testów polega na napisaniu funkcji main, która będzie korzystała z funkcji zdefiniowanych w module `phone_forward.h` - podobnie do przykładowego pliku `phone_forward_example.c`. Testy nie powinny korzystać z żadnych modułów poza `phone_forward.h` oraz biblioteki standardowej i powinny sprawdzać zgodność wyniku funkcją `assert()`.
+Tworzenie testów polega na napisaniu funkcji main, która będzie korzystała z funkcji
+zdefiniowanych w module `phone_forward.h` - podobnie do przykładowego pliku
+`phone_forward_example.c`. Testy nie powinny korzystać z żadnych modułów poza
+`phone_forward.h` oraz biblioteki standardowej i powinny sprawdzać zgodność wyniku
+funkcją `assert()`.
 
-Plik nagłówkowy umieszczony jest w folderze: `testy_forward_1/phone_forward.h` i testy powinny być umieszczone w tym samym folderze.
+Plik nagłówkowy umieszczony jest w folderze: `testy_forward_1/phone_forward.h`.
+Testy mogą być w podfolderach, jeśli bardzo ktoś chce, ale nie powinno być takiej potrzeby.
 
 Ewentualne komentarze do testów powinny znaleźć się w funkcji main danego testu.
 
-Wszystkie testy (plik z funkcją main) od jednego autora powinny znajdować się w jednym pliku, żeby uniknąć bałaganu.
+Wszystkie testy (plik z funkcją main) od jednego autora powinny znajdować się w jednym pliku,
+żeby uniknąć bałaganu.
 
-Jeśli test sprawdza też działanie funkcji `phfwdReverse()` to powinien przyjmować jako argument parameter `s` w następujący sposób:
+Jeśli test sprawdza też działanie funkcji `phfwdReverse()` to powinien przyjmować jako
+argument parameter `s` w następujący sposób:
 
 `./testy.o s`
 
-i jeżeli parametr został podany, to powinny pominąć testy tej funkcji. Przykład jak to zrobić znajduje się w pliku `phone_forward_example.c`.
+i jeżeli parametr został podany, to powinny pominąć testy tej funkcji. Przykład jak to zrobić
+znajduje się w pliku `phone_forward_example.c`.
 
 #### 2. Testowanie
 
-Aby rozpocząć testowanie należy uruchomić skrypt testujący, znajdujący się w katalogu głównym repozytorium, który jako argument przyjmuje katalog z kodem źródłowym  w następujący sposób:
+Aby rozpocząć testowanie należy uruchomić skrypt testujący, znajdujący się w katalogu
+głównym repozytorium, który jako argument przyjmuje katalog z kodem źródłowym  w
+następujący sposób:
 
 ```
 Usage: ./test_forward_1.sh [-csh] <path/to/src>
@@ -32,7 +42,8 @@ Usage: ./test_forward_1.sh [-csh] <path/to/src>
 	-s	skip tests for phfwdReverse()
 ```
 
-Skrypt kompiluje źródła oraz wszystkie testy, a następnie uruchamia je i mierzy czas wykonywania.
+Skrypt kompiluje źródła oraz wszystkie testy, a następnie uruchamia je i mierzy czas
+wykonywania.
 
 *Parametry `-c -s -h` są opcjonalne.*
 

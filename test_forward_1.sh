@@ -7,6 +7,9 @@ TEST_DIR="testy_forward_1"
 BOLD=$(tput bold)
 NORMAL=$(tput sgr0)
 
+C_RED="\033[0;31m"
+C_DEFAULT="\033[0m"
+
 SKIP_REV_FLAG=""
 
 # Function definitions
@@ -63,21 +66,23 @@ SRC_FILES=()
 for SRC_FILE in $SRC_DIR/*.c
 do
 	SRC_FILE_NAME=$(basename -- "$SRC_FILE")
-	
+
 	if [ $SRC_FILE_NAME != "phone_forward_example.c" ]
 	then
-		SRC_FILES+=$SRC_FILE
+		SRC_FILES+="${SRC_FILE} "
 	fi
 done
 
-for TEST in $TEST_DIR/*.c
+TEST_FILES=$(find testy_forward_1/ -type f -name "*.c")
+
+for TEST in $TEST_FILES
 do
-	echo -e "${BOLD}========= Running test ${TEST} =========${NORMAL}\n"
-	$CC $CFLAGS -o ${TEST%.c}.o $TEST $SRC_FILES >/dev/null 2>&1
-	
+	echo -e "\n${BOLD}========= Running test ${TEST} =========${NORMAL}\n"
+	$CC $CFLAGS -o ${TEST%.c}.o $TEST $SRC_FILES >/dev/null
+
 	if [ $? != 0 ]
 	then
-		echo "Compilation error"
+		echo -e "${C_RED}Compilation error${C_DEFAULT}"
 		exit 1
 	fi
 
