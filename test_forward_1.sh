@@ -22,7 +22,8 @@ print_usage() {
 
 clean() {
 	echo "Removing test files..."
-	rm -f $TEST_DIR/*.o
+	FILES=$(find testy_forward_1/ -type f -name "*.o")
+	rm -f $FILES
 }
 
 # Check flags
