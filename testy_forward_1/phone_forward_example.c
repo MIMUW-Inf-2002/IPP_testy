@@ -68,24 +68,24 @@ int main(int argc, char **argv) {
 		assert(strcmp(phnumGet(pnum, 0), "431") == 0);
 		assert(strcmp(phnumGet(pnum, 1), "432") == 0);
 		assert(phnumGet(pnum, 2) == NULL);
+    phnumDelete(pnum);
   }
-  phnumDelete(pnum);
 
 	if (testReverse) {
 		pnum = phfwdReverse(pf, "433");
 		assert(strcmp(phnumGet(pnum, 0), "432") == 0);
 		assert(strcmp(phnumGet(pnum, 1), "433") == 0);
 		assert(phnumGet(pnum, 2) == NULL);
+    phnumDelete(pnum);
   }
-  phnumDelete(pnum);
 
 	if (testReverse) {
 		pnum = phfwdReverse(pf, "987654321");
 		assert(strcmp(phnumGet(pnum, 0), "12387654321") == 0);
 		assert(strcmp(phnumGet(pnum, 1), "987654321") == 0);
 		assert(phnumGet(pnum, 2) == NULL);
+    phnumDelete(pnum);
   }
-  phnumDelete(pnum);
 
   phfwdRemove(pf, "12");
 
@@ -97,8 +97,8 @@ int main(int argc, char **argv) {
 		pnum = phfwdReverse(pf, "987654321");
 		assert(strcmp(phnumGet(pnum, 0), "987654321") == 0);
 		assert(phnumGet(pnum, 1) == NULL);
+    phnumDelete(pnum);
   }
-  phnumDelete(pnum);
 
   assert(phfwdAdd(pf, "567", "0") == true);
   assert(phfwdAdd(pf, "5678", "08") == true);
@@ -108,8 +108,8 @@ int main(int argc, char **argv) {
 		assert(strcmp(phnumGet(pnum, 0), "08") == 0);
 		assert(strcmp(phnumGet(pnum, 1), "5678") == 0);
 		assert(phnumGet(pnum, 2) == NULL);
+    phnumDelete(pnum);
   }
-  phnumDelete(pnum);
 
   assert(phfwdAdd(pf, "A", "1") == false);
   assert(phfwdAdd(pf, "1", "A") == false);
@@ -124,8 +124,8 @@ int main(int argc, char **argv) {
 	if (testReverse) {
 		pnum = phfwdReverse(pf, "A");
 		assert(phnumGet(pnum, 0) == NULL);
+    phnumDelete(pnum);
   }
-  phnumDelete(pnum);
 
   phfwdAdd(pf, "12", "123");
   pnum = phfwdGet(pf, "123");
@@ -140,8 +140,8 @@ int main(int argc, char **argv) {
 		assert(strcmp(phnumGet(pnum, 1), "234") == 0);
 		assert(strcmp(phnumGet(pnum, 2), "434") == 0);
 		assert(phnumGet(pnum, 3) == NULL);
+    phnumDelete(pnum);
   }
-  phnumDelete(pnum);
 
   phfwdDelete(pf);
   pnum = NULL;
@@ -161,7 +161,7 @@ int main(int argc, char **argv) {
 		pnum = phfwdReverse(pf, "7581");
 		assert(strcmp(phnumGet(pnum, 0), "7581") == 0);
 		assert(phnumGet(pnum, 1) == NULL);
+    phnumDelete(pnum);
   }
-  phnumDelete(pnum);
   phfwdDelete(pf);
 }
