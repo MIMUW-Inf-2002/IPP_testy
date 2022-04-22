@@ -81,7 +81,7 @@ standardowe,  a `*.err` wyjście stderr.
 #### 3. Opisy testów (labirynt)
 
 **Oficjalne:**
-<details><summary>Pokaż opisy</summary>
+<details><summary>oficjalne_example</summary>
   <ul>
     <li> example1 – mały labirynt dwuwymiarowy z drogą o długości 12 </li>
     <li> example2 – mały labirynt jednowymiarowy z drogą o długości 5 </li>
@@ -94,6 +94,12 @@ standardowe,  a `*.err` wyjście stderr.
     <li> error30 – współrzędne pozycji (końcowej) muszą być dodatnie </li>
     <li> error40 – liczba opisująca położenie ścian ma za dużo bitów </li>
     <li> error50 – dane wejściowe mają za dużo linii </li>
+  </ul>
+</details>
+
+<details><summary>oficjalne</summary>
+  <ul>
+    Oficjalne testy, które były używane przy sprawdzaniu małego zadania.
   </ul>
 </details>
 
