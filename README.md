@@ -35,11 +35,12 @@ głównym repozytorium, który jako argument przyjmuje katalog z kodem źródło
 następujący sposób:
 
 ```
-Usage: ./test_forward_1.sh [-csh] <path/to/src>
-
-	-h	show this help message
-	-c	remove test files
-	-s	skip tests for phfwdReverse()
+Usage: ./test_forward_1.sh [options] <path/to/src>
+Options:
+    -h  show this help message
+    -c  remove test files
+    -s  skip tests for phfwdReverse()
+    -v  run tests with valgrind
 ```
 
 Skrypt kompiluje źródła oraz wszystkie testy, a następnie uruchamia je i mierzy czas
