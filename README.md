@@ -48,16 +48,6 @@ wykonywania.
 
 *Parametry `-c -s -h` są opcjonalne.*
 
-### 3. Opisy testów (forward)
-**Studenckie:**
-
-<details><summary>Folder rentib</summary>
-  <ul>
-    <li> Folder AddRemoveGetBasic - losowe proste testy sprawdzające funkcje phfwdAdd, phfwdRemove i phfwdGet. Numery składają się jedynie z cyfr [0-2] i mają maksymalnie długość 5 </li>
-  </ul>
-</details>
-
-
 ## Testy labirynt
 
 #### 1. Dodawanie testów
