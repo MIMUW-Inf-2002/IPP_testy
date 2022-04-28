@@ -123,8 +123,8 @@ int main(/* int argc, char **argv */) {
   printTestSuccess(9);
   assert(phfwdAdd(pf, "123", "a") == false);
   printTestSuccess(10);
-  // assert(phfwdAdd(pf, "123", "94gs") == false);
-  // printTestSuccess(11);
+  assert(phfwdAdd(pf, "123", "94gs") == false);
+  printTestSuccess(11);
   assert(phfwdAdd(pf, "123", "as76") == false);
   printTestSuccess(12);
   assert(phfwdAdd(pf, "123", "%") == false);
@@ -138,8 +138,8 @@ int main(/* int argc, char **argv */) {
   printTestSuccess(16);
   assert(phfwdAdd(pf, "a", "123") == false);
   printTestSuccess(17);
-  // assert(phfwdAdd(pf, "94gs", "123") == false);
-  // printTestSuccess(18);
+  assert(phfwdAdd(pf, "94gs", "123") == false);
+  printTestSuccess(18);
   assert(phfwdAdd(pf, "as76", "123") == false);
   printTestSuccess(19);
   assert(phfwdAdd(pf, "%", "123") == false);
@@ -165,8 +165,8 @@ int main(/* int argc, char **argv */) {
   printTestSuccess(28);
   phfwdRemove(pf, "");
   printTestSuccess(29);
-  // phfwdRemove(pf, "94bs");
-  // printTestSuccess(30);
+  phfwdRemove(pf, "94bs");
+  printTestSuccess(30);
   phfwdRemove(pf, "abc");
   printTestSuccess(31);
   phfwdRemove(pf, ";");
@@ -183,8 +183,8 @@ int main(/* int argc, char **argv */) {
   printTestSuccess(36);
   phfwdRemove(pf, "");
   printTestSuccess(37);
-  // assert(phfwdGet(pf, "94bs") == NULL);
-  // printTestSuccess(38);
+  assert(phfwdGet(pf, "94bs") == NULL);
+  printTestSuccess(38);
   assert(phfwdGet(pf, "abc") == NULL);
   printTestSuccess(39);
   assert(phfwdGet(pf, ";") == NULL);
@@ -196,6 +196,45 @@ int main(/* int argc, char **argv */) {
 
   phfwdDelete(pf);
 
+  // This tests if any global variables are used
+  printSection("Testing two structs");
+  PhoneForward *pf1 = phfwdNew();
+  PhoneForward *pf2 = phfwdNew();
+
+  assert(phfwdAdd(pf1, "123", "789") == true);
+  assert(phfwdAdd(pf2, "456", "321") == true);
+  PhoneNumbers *pnum1 = phfwdGet(pf1, "123456");
+  PhoneNumbers *pnum2 = phfwdGet(pf2, "456890");
+  assert(strcmp(phnumGet(pnum1, 0), "789456") == 0);
+  assert(strcmp(phnumGet(pnum2, 0), "321890") == 0);
+  phnumDelete(pnum1);
+  phnumDelete(pnum2);
+  printTestSuccess(43);
+  phfwdRemove(pf2, "456");
+  pnum1 = phfwdGet(pf1, "123456");
+  pnum2 = phfwdGet(pf2, "456890");
+  assert(strcmp(phnumGet(pnum1, 0), "789456") == 0);
+  assert(strcmp(phnumGet(pnum2, 0), "456890") == 0);
+  phnumDelete(pnum1);
+  phnumDelete(pnum2);
+  printTestSuccess(44);
+
+  phfwdDelete(pf2);
+  pnum1 = phfwdGet(pf1, "123456");
+  assert(strcmp(phnumGet(pnum1, 0), "789456") == 0);
+  phnumDelete(pnum1);
+  phfwdDelete(pf1);
+  printTestSuccess(45);
+
+  // This tests if branches with no numbers are deleted in the tree
   // printSection("Testing if structure is correctly free'd on removal of items");
+  // TODO
+
+  // This tests if a tree is used and will fail for an array approach
+  // printSection("Testing structure optimized for overlapping numbers");
+  // TODO
+  
+  // This tests if the result of pnumGet is available after clearing PhoneNumbers struct
+  // printSection("Testing persisten result");
   // TODO
 }
