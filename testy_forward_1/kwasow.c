@@ -239,6 +239,14 @@ int main(/* int argc, char **argv */) {
   assert(strcmp(result, "888765") == 0);
   printTestSuccess(46);
 
+  pf = phfwdNew();
+  assert(phfwdAdd(pf, "1234", "888") == true);
+  pnum = phfwdGet(pf, "1234765");
+  phfwdDelete(pf);
+  assert(strcmp(phnumGet(pnum, 0), "888765") == 0);
+  phnumDelete(pnum);
+  printTestSuccess(47);
+
   // This tests if branches with no numbers are deleted in the tree
   // printSection("Testing if structure is correctly free'd on removal of items");
   // TODO
