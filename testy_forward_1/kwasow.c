@@ -179,19 +179,31 @@ int main(/* int argc, char **argv */) {
   // (Get)
   assert(phfwdGet(NULL, "123") == NULL);
   printTestSuccess(35);
-  assert(phfwdGet(pf, NULL) == NULL);
+  pnum = phfwdGet(pf, NULL);
+  assert(pnumGet(pnum, 0) == NULL);
+  pnumDelete(pnum);
   printTestSuccess(36);
   phfwdRemove(pf, "");
   printTestSuccess(37);
-  assert(phfwdGet(pf, "94bs") == NULL);
+  pnum = phfwdGet(pf, "94bs");
+  assert(pnumGet(pnum, 0) == NULL);
+  pnumDelete(pnum);
   printTestSuccess(38);
-  assert(phfwdGet(pf, "abc") == NULL);
+  pnum = phfwdGet(pf, "abc");
+  assert(pnumGet(pnum, 0) == NULL);
+  pnumDelete(pnum);
   printTestSuccess(39);
-  assert(phfwdGet(pf, ";") == NULL);
+  pnum = phfwdGet(pf, ";");
+  assert(pnumGet(pnum, 0) == NULL);
+  pnumDelete(pnum);
   printTestSuccess(40);
-  assert(phfwdGet(pf, "<>") == NULL);
+  pnum = phfwdGet(pf, "<>");
+  assert(pnumGet(pnum, 0) == NULL);
+  pnumDelete(pnum);
   printTestSuccess(41);
-  assert(phfwdGet(pf, "?!") == NULL);
+  pnum = phfwdGet(pf, "?!");
+  assert(pnumGet(pnum, 0) == NULL);
+  pnumDelete(pnum);
   printTestSuccess(42);
 
   phfwdDelete(pf);
