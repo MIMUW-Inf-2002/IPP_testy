@@ -225,6 +225,19 @@ int main(/* int argc, char **argv */) {
   phnumDelete(pnum1);
   phfwdDelete(pf1);
   printTestSuccess(45);
+  
+  // This tests if the result of pnumGet is available after clearing PhoneNumbers struct
+  printSection("Testing persisten result");
+  pf = phfwdNew();
+  assert(phfwdAdd(pf, "1234", "888") == true);
+  pnum = phfwdGet(pf, "1234765");
+  char const *result = phnumGet(pnum, 0);
+  assert(strcmp(result, "888765") == 0);
+  phnumDelete(pnum);
+  assert(strcmp(result, "888765") == 0);
+  phfwdDelete(pf);
+  assert(strcmp(result, "888765") == 0);
+  printTestSuccess(46);
 
   // This tests if branches with no numbers are deleted in the tree
   // printSection("Testing if structure is correctly free'd on removal of items");
@@ -232,9 +245,5 @@ int main(/* int argc, char **argv */) {
 
   // This tests if a tree is used and will fail for an array approach
   // printSection("Testing structure optimized for overlapping numbers");
-  // TODO
-  
-  // This tests if the result of pnumGet is available after clearing PhoneNumbers struct
-  // printSection("Testing persisten result");
   // TODO
 }
