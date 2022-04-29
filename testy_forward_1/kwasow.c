@@ -180,29 +180,29 @@ int main(/* int argc, char **argv */) {
   assert(phfwdGet(NULL, "123") == NULL);
   printTestSuccess(35);
   pnum = phfwdGet(pf, NULL);
-  assert(pnumGet(pnum, 0) == NULL);
+  assert(phnumGet(pnum, 0) == NULL);
   phnumDelete(pnum);
   printTestSuccess(36);
   phfwdRemove(pf, "");
   printTestSuccess(37);
   pnum = phfwdGet(pf, "94bs");
-  assert(pnumGet(pnum, 0) == NULL);
+  assert(phnumGet(pnum, 0) == NULL);
   phnumDelete(pnum);
   printTestSuccess(38);
   pnum = phfwdGet(pf, "abc");
-  assert(pnumGet(pnum, 0) == NULL);
+  assert(phnumGet(pnum, 0) == NULL);
   phnumDelete(pnum);
   printTestSuccess(39);
   pnum = phfwdGet(pf, ";");
-  assert(pnumGet(pnum, 0) == NULL);
+  assert(phnumGet(pnum, 0) == NULL);
   phnumDelete(pnum);
   printTestSuccess(40);
   pnum = phfwdGet(pf, "<>");
-  assert(pnumGet(pnum, 0) == NULL);
+  assert(phnumGet(pnum, 0) == NULL);
   phnumDelete(pnum);
   printTestSuccess(41);
   pnum = phfwdGet(pf, "?!");
-  assert(pnumGet(pnum, 0) == NULL);
+  assert(phnumGet(pnum, 0) == NULL);
   phnumDelete(pnum);
   printTestSuccess(42);
 
@@ -238,7 +238,7 @@ int main(/* int argc, char **argv */) {
   phfwdDelete(pf1);
   printTestSuccess(45);
   
-  // This tests if the result of pnumGet is available after clearing PhoneNumbers struct
+  // This tests if the result of phnumGet is available after clearing PhoneNumbers struct
   printSection("Testing persisten result");
   pf = phfwdNew();
   assert(phfwdAdd(pf, "1234", "888") == true);
