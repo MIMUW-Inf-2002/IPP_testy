@@ -14,6 +14,7 @@ int main(int argc, char **argv) {
 		if (strcmp(argv[1], "s")==0)
 			testReverse = false;
 	}
+	
 
 	PhoneForward *pf;
 	PhoneNumbers *pnum;
