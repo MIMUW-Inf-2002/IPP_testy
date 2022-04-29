@@ -40,17 +40,7 @@ int main(int argc, char **argv)
 	phfwdRemove(pf, "");
 	phfwdRemove(pf, n1);
 	phfwdDelete(NULL);
-	pnum = phfwdGet(pf, n1);
-	assert(strcmp(phnumGet(pnum, 0), "") == 0);
-	phnumDelete(pnum);
-
-	pnum = phfwdGet(pf, "");
-	assert(strcmp(phnumGet(pnum, 0), "") == 0);
-	phnumDelete(pnum);
-
-	pnum = phfwdGet(pf, "1a2");
-	assert(strcmp(phnumGet(pnum, 0), "") == 0);
-	phnumDelete(pnum);
+	
 
 	printf("test 1\n");
 	assert(phfwdAdd(pf, "117", "10110101") == true);
