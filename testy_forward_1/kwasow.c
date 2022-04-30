@@ -7,8 +7,6 @@
 #include <string.h>
 #include <stdio.h>
 
-#define MAX_LEN 23
-
 void printSection(char *title) {
   printf("\n\033[1m%s\033[0m\n", title);
 }
@@ -239,7 +237,8 @@ int main(/* int argc, char **argv */) {
   printTestSuccess(45);
   
   // This tests if the result of phnumGet is available after clearing PhoneNumbers struct
-  printSection("Testing persisten result");
+  // NOTE: This test is too controvertial
+  /* printSection("Testing persisten result");
   pf = phfwdNew();
   assert(phfwdAdd(pf, "1234", "888") == true);
   pnum = phfwdGet(pf, "1234765");
@@ -257,7 +256,7 @@ int main(/* int argc, char **argv */) {
   phfwdDelete(pf);
   assert(strcmp(phnumGet(pnum, 0), "888765") == 0);
   phnumDelete(pnum);
-  printTestSuccess(47);
+  printTestSuccess(47); */
 
   // This tests if branches with no numbers are deleted in the tree
   // printSection("Testing if structure is correctly free'd on removal of items");
