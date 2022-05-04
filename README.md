@@ -47,7 +47,7 @@ Options:
 Skrypt kompiluje źródła oraz wszystkie testy, a następnie uruchamia je i mierzy czas
 wykonywania.
 
-*Parametry `-c -s -h` są opcjonalne.*
+*Parametry z myślnikiem są opcjonalne.*
 
 ## Testy labirynt
 
@@ -69,7 +69,7 @@ Bądź jak Jan Kowalski.
 Ważne, żeby pliki dotyczące tych samych testów miały te same nazwy. Plik `*.in` zawiera wejście, `*.out` wyjście
 standardowe,  a `*.err` wyjście stderr.
 
-#### 3. Opisy testów (labirynt)
+#### 3. Opisy testów
 
 **Oficjalne:**
 <details><summary>oficjalne_example</summary>
