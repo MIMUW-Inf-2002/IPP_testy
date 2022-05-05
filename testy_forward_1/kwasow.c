@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void printSection(char *title) {
   printf("\n\033[1m%s\033[0m\n", title);
@@ -245,27 +246,31 @@ int main(/* int argc, char **argv */) {
   phfwdDelete(pf1);
   printTestSuccess(45);
   
-  // This tests if the result of phnumGet is available after clearing PhoneNumbers struct
-  // NOTE: This test is too controvertial
-  /* printSection("Testing persisten result");
+  printSection("Different tests");
   pf = phfwdNew();
-  assert(phfwdAdd(pf, "1234", "888") == true);
-  pnum = phfwdGet(pf, "1234765");
-  char const *result = phnumGet(pnum, 0);
-  assert(strcmp(result, "888765") == 0);
-  phnumDelete(pnum);
-  assert(strcmp(result, "888765") == 0);
+  char *number = calloc(4, sizeof(char));
+  if (number != NULL) {
+    number[0] = '8';
+    number[1] = '8';
+    number[2] = '8';
+    number[3] = '\0';
+    
+    assert(phfwdAdd(pf, "1234", number) == true);
+    pnum = phfwdGet(pf, "123456");
+    assert(strcmp(phnumGet(pnum, 0), "88856") == 0);
+    assert(phnumGet(pnum, 1) == NULL);
+    
+    free(number);
+    assert(strcmp(phnumGet(pnum, 0), "88856") == 0);
+    assert(phnumGet(pnum, 1) == NULL);
+    phnumDelete(pnum);
+    pnum = phfwdGet(pf, "123456");
+    assert(strcmp(phnumGet(pnum, 0), "88856") == 0);
+    assert(phnumGet(pnum, 1) == NULL);
+    phnumDelete(pnum);
+  }
   phfwdDelete(pf);
-  assert(strcmp(result, "888765") == 0);
   printTestSuccess(46);
-
-  pf = phfwdNew();
-  assert(phfwdAdd(pf, "1234", "888") == true);
-  pnum = phfwdGet(pf, "1234765");
-  phfwdDelete(pf);
-  assert(strcmp(phnumGet(pnum, 0), "888765") == 0);
-  phnumDelete(pnum);
-  printTestSuccess(47); */
 
   // This tests if branches with no numbers are deleted in the tree
   // printSection("Testing if structure is correctly free'd on removal of items");
