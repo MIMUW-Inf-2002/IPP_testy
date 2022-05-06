@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CC="gcc"
-CFLAGS="-std=c17 -Wall -Wextra -Wno-implicit-fallthrough"
+CFLAGS="-std=c17 -Wall -Wextra -Wno-implicit-fallthrough -g"
 VALGRIND_FLAGS="--leak-check=full --show-leak-kinds=all
 	--errors-for-leak-kinds=all --quiet"
 TEST_DIR="testy_forward_1"
