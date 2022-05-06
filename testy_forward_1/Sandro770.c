@@ -9,8 +9,8 @@
 
 #define MAX_LEN 23
 
-#define GREEN   "\033[32m"
-#define RESET_COLOR "\e[m"
+#define GREEN   "\033[0;32m"
+#define RESET_COLOR "\033[0m"
 
 void phfwdAddTests();
 
@@ -20,7 +20,7 @@ int testId = 1;
 
 void printTestPassed() {
     printf("Test %d: ", testId++);
-    printf(GREEN "PASSED\n"RESET_COLOR);
+    printf("%sPASSED%s\n", GREEN, RESET_COLOR);
 }
 void printGreeting() {
     printf("Testy rozpoczęte\n\n");
@@ -258,3 +258,4 @@ void phfwdAddTests() {
     printTestPassed();
     phfwdDelete(pf);
 }
+
