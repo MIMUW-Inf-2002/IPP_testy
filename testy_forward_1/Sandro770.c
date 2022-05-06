@@ -131,10 +131,7 @@ void phfwdGetTests() {
 
     /* pf == NULL, num == NULL i czy na koniec pusty ciąg */
     pnum = phfwdGet(NULL, NULL);
-    assert(NULL != pnum);
-    printTestPassed();
-    assert(phnumGet(pnum, 0) == NULL);
-    phnumDelete(pnum);
+    assert(NULL == pnum);
     printTestPassed();
 
     /* pf == coś, num == NULL i czy na koniec pusty ciąg */
