@@ -4,7 +4,7 @@ CC="gcc"
 CFLAGS="-std=c17 -Wall -Wextra -Wno-implicit-fallthrough -g"
 VALGRIND_FLAGS="--leak-check=full --show-leak-kinds=all
 	--errors-for-leak-kinds=all --quiet"
-TEST_DIR="testy_forward_1"
+TEST_DIR="testy_forward"
 
 BOLD=$(tput bold)
 NORMAL=$(tput sgr0)
@@ -115,7 +115,7 @@ for SRC_FILE in $SRC_DIR/*.c; do
   [ "$SRC_FILE_NAME" == "phone_forward_example.c" ] || SRC_FILES+="${SRC_FILE} "
 done
 
-TEST_FILES=$(find testy_forward_1/ -type f -name "*.c")
+TEST_FILES=$(find $TEST_DIR -type f -name "*.c")
 
 for TEST in $TEST_FILES
 do
