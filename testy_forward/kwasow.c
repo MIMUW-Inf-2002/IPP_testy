@@ -16,13 +16,13 @@ void printTestSuccess(int testNumber) {
   printf("Test %i: \033[0;32mPASSED\033[0m\n", testNumber);
 }
 
-int main(/* int argc, char **argv */) {
-	/* bool testReverse = true;
+int main(int argc, char **argv) {
+	bool testReverse = true;
 
 	if (argc != 1) {
 		if (strcmp(argv[0], "s"))
 			testReverse = false;
-	} */
+	}
 
   PhoneForward *pf;
   PhoneNumbers *pnum;
@@ -272,11 +272,41 @@ int main(/* int argc, char **argv */) {
   phfwdDelete(pf);
   printTestSuccess(46);
 
-  // This tests if branches with no numbers are deleted in the tree
-  // printSection("Testing if structure is correctly free'd on removal of items");
-  // TODO
-
-  // This tests if a tree is used and will fail for an array approach
-  // printSection("Testing structure optimized for overlapping numbers");
-  // TODO
+  // Multiple tests that include numers '*' and '#'
+  printSection("Testing changes from part 2 of duze");
+  pf = phfwdNew();
+  
+  assert(phfwdAdd(pf, "1#*", "##") == true);
+  pnum = phfwdGet(pf, "1#*23");
+  assert(strcmp(phnumGet(pnum, 0), "##23") == 0);
+  assert(phnumGet(pnum, 1) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(47);
+  
+  assert(phfwdAdd(pf, "12*", "**123") == true);
+  pnum = phfwdGet(pf, "12*4");
+  assert(strcmp(phnumGet(pnum, 0), "**1234") == 0);
+  assert(phnumGet(pnum, 1) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(48);
+  
+  assert(phfwdAdd(pf, "**", "**123") == true);
+  pnum = phfwdGet(pf, "**4");
+  assert(strcmp(phnumGet(pnum, 0), "**1234") == 0);
+  assert(phnumGet(pnum, 1) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(49);
+  
+  pnum = phfwdGet(pf, "1");
+  assert(strcmp(phnumGet(pnum, 0), "1") == 0);
+  assert(phnumGet(pnum, 1) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(50);
+  
+  phfwdDelete(pf);
+  
+  // (Reverse)
+  if (testReverse) {
+    printSection("Testing phfwdReverse()");
+  }
 }
