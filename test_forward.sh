@@ -30,7 +30,7 @@ print_usage() {
 
 clean() {
 	printf "Removing test files...\n"
-	FILES=$(find testy_forward_1/ -type f -name "*.o")
+	FILES=$(find $TEST_DIR -type f -name "*.o")
 	rm -f $FILES
 }
 
