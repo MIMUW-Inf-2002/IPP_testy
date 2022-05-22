@@ -112,7 +112,10 @@ SRC_FILES=()
 
 for SRC_FILE in $SRC_DIR/*.c; do
 	SRC_FILE_NAME=$(basename -- "$SRC_FILE")
-  [ "$SRC_FILE_NAME" == "phone_forward_example.c" ] || SRC_FILES+="${SRC_FILE} "
+  if [[ "$SRC_FILE_NAME" != "phone_forward_example.c" && "$SRC_FILE_NAME" != "phone_forward_tests.c" ]]
+  then
+    SRC_FILES+="${SRC_FILE} "
+  fi
 done
 
 TEST_FILES=$(find $TEST_DIR -type f -name "*.c")
