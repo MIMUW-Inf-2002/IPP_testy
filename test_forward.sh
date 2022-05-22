@@ -123,8 +123,12 @@ TEST_FILES=$(find $TEST_DIR -type f -name "*.c")
 for TEST in $TEST_FILES
 do
 	echo -e "\n${BOLD}========= Running test ${TEST} =========${NORMAL}\n"
+	echo -n "Compiling... "
+	
 	$CC $CFLAGS -o ${TEST%.c}.o $TEST $SRC_FILES >/dev/null
   [ "$?" -ne 0 ] && printf "${C_RED}Compilation error${C_DEFAULT}\n" && exit 1
+	
+	echo -e "done"
 	
 	if [[ $RUN_VALGRIND_FLAG == 1 ]]
 	then
