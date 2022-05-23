@@ -35,7 +35,7 @@ głównym repozytorium, który jako argument przyjmuje katalog z kodem źródło
 następujący sposób:
 
 ```
-Usage: ./test_forward_1.sh [options] <path/to/src>
+Usage: ./test_forward.sh [options] <path/to/src>
 Options:
     -h   show this help message
     -c   remove test files
