@@ -8,12 +8,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// String is 5MB
+#define BIG_STRING_SIZE 5242880
+
 void printSection(char *title) {
   printf("\n\033[1m%s\033[0m\n", title);
 }
 
 void printTestSuccess(int testNumber) {
   printf("Test %i: \033[0;32mPASSED\033[0m\n", testNumber);
+}
+
+bool onlyLinuxMessageShown = false;
+void printMemoryUsage(char pass) {
+  #ifdef __linux__
+    FILE *file = fopen("/proc/self/statm", "r");
+    if (file != NULL) {
+      size_t memoryUsage = 0;
+      fscanf(file, "%lu", &memoryUsage);
+      fclose(file);
+      printf("%lu blocks in use after pass %c\n", memoryUsage, pass);
+    }
+  #else
+    if (!onlyLinuxMessageShown) {
+      printf("Memory usage only available on Linux - sorry\n");
+      onlyLinuxMessageShown = true;
+    }
+  #endif
 }
 
 int main(int argc, char **argv) {
@@ -275,7 +296,7 @@ int main(int argc, char **argv) {
   phfwdDelete(pf);
   printTestSuccess(300);
 
-  // ############# THIS SECTION CONTAINS TEST FOR PART 2 #######################
+  // ############# THIS SECTION CONTAINS TESTS FOR PART 2 ######################
   printSection("############### PART 2 ###############");
 
   // Multiple tests that include numers '*' and '#'
@@ -490,5 +511,78 @@ int main(int argc, char **argv) {
     printTestSuccess(607);
 
     phfwdDelete(pf);
+  }
+  
+  // This should pass. Memory usage was below 1GB in my implementation, so I would
+  // be surprised if anything went past 2-3GB. If it does then there is reason
+  // to believe the implementation isn't very good and probably needs some work.
+  //
+  // The unoptimized version of my code uses around 8GB of memory (the
+  // unoptimized version will most likely fail with valgrind - out of memory).
+  //
+  // These memory tests should be run on students as the unoptimized version
+  // will likely still pass if >=16GB of memory is available.
+  printSection("Testing if dead branches are deleted");
+  
+  printf("> These tests make over 50,000,000 allocations, so it might be *very* "
+         "slow, when running with valgrind, but it will pass.\n");
+
+  printf("> Printed memory usage should stay (almost) constant. Please analyze"
+         " it on your own.\n");
+
+  printf("> More info on the tests can be found in kwasow.c's main function\n");
+
+  char *bigString = calloc(BIG_STRING_SIZE + 1, sizeof(char));
+  if (bigString != NULL) {
+    
+    // A lot of zeros
+    for (size_t i = 0; i < BIG_STRING_SIZE; i++)
+      bigString[i] = '0';
+
+    pf = phfwdNew();
+    for (char c = '0'; c <= '9'; c++) {
+      // Change first digit
+      bigString[0] = c;
+
+      // Add and test
+      assert(phfwdAdd(pf, bigString, "1") == true);
+      pnum = phfwdGet(pf, bigString);
+      assert(strcmp(phnumGet(pnum, 0), "1") == 0);
+      assert(phnumGet(pnum, 1) == NULL);
+      phnumDelete(pnum);
+      phfwdRemove(pf, bigString);
+
+      // Print memory usage
+      printMemoryUsage(c);
+    }
+
+    phfwdDelete(pf);
+    printTestSuccess(700);
+
+    if (testReverse) {
+      pf = phfwdNew();
+      // Now testing bigString in reverse tree
+      for (char c = '0'; c <= '9'; c++) {
+        // Change first digit
+        bigString[0] = c;
+
+        // Add and test
+        assert(phfwdAdd(pf, "*", bigString) == true);
+        pnum = phfwdReverse(pf, bigString);
+        assert(strcmp(phnumGet(pnum, 0), bigString) == 0);
+        assert(strcmp(phnumGet(pnum, 1), "*") == 0);
+        assert(phnumGet(pnum, 2) == NULL);
+        phnumDelete(pnum);
+        phfwdRemove(pf, "*");
+
+        // Print memory usage
+        printMemoryUsage(c);
+      }
+
+      phfwdDelete(pf);
+      printTestSuccess(701);
+    }
+
+    free(bigString);
   }
 }
