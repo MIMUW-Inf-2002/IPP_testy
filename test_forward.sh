@@ -119,7 +119,7 @@ for SRC_FILE in $SRC_DIR/*; do
   elif [[ $SRC_FILE == *.c ]]
   then
     SRC_FILE_NAME=$(basename -- "$SRC_FILE")
-    echo "${SRC_FILE} "
+
     if [[ "$SRC_FILE_NAME" != "phone_forward_example.c" && "$SRC_FILE_NAME" != "phone_forward_tests.c" ]]
     then
 
@@ -148,3 +148,4 @@ do
 		time ./${TEST%.c}.o $SKIP_REV_FLAG
 	fi
 done
+
