@@ -110,13 +110,24 @@ SRC_DIR=${@:$#}
 # Compile and run tests
 SRC_FILES=()
 
-for SRC_FILE in $SRC_DIR/*.c; do
-	SRC_FILE_NAME=$(basename -- "$SRC_FILE")
-  if [[ "$SRC_FILE_NAME" != "phone_forward_example.c" && "$SRC_FILE_NAME" != "phone_forward_tests.c" ]]
+for SRC_FILE in $SRC_DIR/*; do
+  if [ -d $SRC_FILE ]
   then
-    SRC_FILES+="${SRC_FILE} "
+    for SUB_SRC_FILE in $SRC_FILE/*.c; do
+      SRC_FILES+="${SUB_SRC_FILE} "
+    done
+  elif [[ $SRC_FILE == *.c ]]
+  then
+    SRC_FILE_NAME=$(basename -- "$SRC_FILE")
+    echo "${SRC_FILE} "
+    if [[ "$SRC_FILE_NAME" != "phone_forward_example.c" && "$SRC_FILE_NAME" != "phone_forward_tests.c" ]]
+    then
+
+      SRC_FILES+="${SRC_FILE} "
+    fi
   fi
 done
+
 
 TEST_FILES=$(find $TEST_DIR -type f -name "*.c")
 
@@ -124,7 +135,7 @@ for TEST in $TEST_FILES
 do
 	echo -e "\n${BOLD}========= Running test ${TEST} =========${NORMAL}\n"
 	echo -n "Compiling... "
-	
+
 	$CC $CFLAGS -o ${TEST%.c}.o $TEST $SRC_FILES >/dev/null
   [ "$?" -ne 0 ] && printf "${C_RED}Compilation error${C_DEFAULT}\n" && exit 1
 	
