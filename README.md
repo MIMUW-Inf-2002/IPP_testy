@@ -12,7 +12,7 @@ zdefiniowanych w module `phone_forward.h` - podobnie do przykładowego pliku
 `phone_forward.h` oraz biblioteki standardowej i powinny sprawdzać zgodność wyniku
 funkcją `assert()`.
 
-Plik nagłówkowy umieszczony jest w folderze: `testy_forward_1/phone_forward.h`.
+Plik nagłówkowy umieszczony jest w folderze: `testy_forward/phone_forward.h`.
 Testy mogą być w podfolderach, jeśli bardzo ktoś chce, ale nie powinno być takiej potrzeby.
 
 Ewentualne komentarze do testów powinny znaleźć się w funkcji main danego testu.
@@ -50,6 +50,8 @@ wykonywania.
 *Parametry z myślnikiem są opcjonalne.*
 
 ## Testy labirynt
+
+**Uwaga!** Testy zostały skompresowane do archiwum `testy_labirynt.tar.xz`, które przechowywane jest przy użyciu narzędzia `git-lfs`. Dzięki temu plik nie jest pobierany, jeśli go nie potrzebujemy (a jest duży). Żeby pobrać plik należy zainstalować pakiet `git-lfs` (np. w Debianie, Ubuntu i podobnych: `sudo apt install git-lfs`), a następnie w katalogu głównum repozytorium wywołać polecenie `git lfs pull`.
 
 #### 1. Dodawanie testów
 
@@ -93,7 +95,6 @@ standardowe,  a `*.err` wyjście stderr.
     Oficjalne testy, które były używane przy sprawdzaniu małego zadania.
   </ul>
 </details>
-
 **Studenckie:**
 
 **Uwaga!** *Niektóre z tych testów zwracją inne kody blędów niż testy oficjalne. W szczególności, gdy testy zwracają
