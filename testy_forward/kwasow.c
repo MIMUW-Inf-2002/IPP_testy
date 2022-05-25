@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
   PhoneForward *pf;
   PhoneNumbers *pnum;
 
-  // ############# THIS SECTION CONTAINS TEST FOR PART 1 #######################
+  // ############# THIS SECTION CONTAINS TESTS FOR PART 1 ######################
   printSection("############### PART 1 ###############");
   
   printSection("Basic tests for add and remove");
@@ -524,21 +524,21 @@ int main(int argc, char **argv) {
   // will likely still pass if >=16GB of memory is available.
   printSection("Testing if dead branches are deleted");
   
-  printf("> These tests make over 50,000,000 allocations, so it might be *very* "
+  printf("> These tests make over 100,000,000 allocations, so it might be *very* "
          "slow, when running with valgrind, but it will pass.\n");
-
-  printf("> Printed memory usage should stay (almost) constant. Please analyze"
-         " it on your own.\n");
-
+  printf("> Printed memory usage should stay (almost) constant. Please analyze "
+         "it on your own.\n");
+  printf("> Do not compare your numbers to others. Do not use them to measure "
+         "how good your solution is. Only check if they are constant.\n");
   printf("> More info on the tests can be found in kwasow.c's main function\n");
 
   char *bigString = calloc(BIG_STRING_SIZE + 1, sizeof(char));
   if (bigString != NULL) {
-    
     // A lot of zeros
     for (size_t i = 0; i < BIG_STRING_SIZE; i++)
       bigString[i] = '0';
 
+    // Test deleting branches from forwards
     pf = phfwdNew();
     for (char c = '0'; c <= '9'; c++) {
       // Change first digit
@@ -559,6 +559,7 @@ int main(int argc, char **argv) {
     phfwdDelete(pf);
     printTestSuccess(700);
 
+    // Test deleting branches from reverse
     if (testReverse) {
       pf = phfwdNew();
       // Now testing bigString in reverse tree
@@ -583,6 +584,40 @@ int main(int argc, char **argv) {
       printTestSuccess(701);
     }
 
+    // Test deleting branches from reverse
+    // Now there are two numbers in forwards and they are both redirected to the
+    // same bigString. One is a prefix of the other. The prefix is deleted first.
+    // The test checks if the branches are also deleted when the deletion
+    // happens while deleting a subtree and not only when deleting the `num`
+    // parameter from the phfwdRemove() function.
+    if (testReverse) {
+      pf = phfwdNew();
+      // Now testing bigString in reverse tree
+      for (char c = '0'; c <= '9'; c++) {
+        // Change first digit
+        bigString[0] = c;
+
+        // Add and test
+        assert(phfwdAdd(pf, "*", bigString) == true);
+        assert(phfwdAdd(pf, "**", bigString) == true);
+        pnum = phfwdReverse(pf, bigString);
+        assert(strcmp(phnumGet(pnum, 0), bigString) == 0);
+        assert(strcmp(phnumGet(pnum, 1), "*") == 0);
+        assert(strcmp(phnumGet(pnum, 2), "**") == 0);
+        assert(phnumGet(pnum, 3) == NULL);
+        phnumDelete(pnum);
+        phfwdRemove(pf, "*");
+
+        // Print memory usage
+        printMemoryUsage(c);
+      }
+
+      phfwdDelete(pf);
+      printTestSuccess(702);
+    }
+
     free(bigString);
+  } else {
+    printf("[ERROR]: Allocation failed for bigString test. Skipping...\n");
   }
 }
