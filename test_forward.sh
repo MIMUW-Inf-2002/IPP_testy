@@ -2,8 +2,7 @@
 
 CC="gcc"
 CFLAGS="-std=c17 -Wall -Wextra -Wno-implicit-fallthrough -g"
-CFALGS_WRAP="-Wl,--wrap=malloc -Wl,--wrap=calloc -Wl,--wrap=realloc -Wl,
-	--wrap=reallocarray -Wl,--wrap=free -Wl,--wrap=strdup -Wl,--wrap=strndup"
+CFALGS_WRAP="-Wl,--wrap=malloc -Wl,--wrap=calloc -Wl,--wrap=realloc -Wl,--wrap=reallocarray -Wl,--wrap=free -Wl,--wrap=strdup -Wl,--wrap=strndup"
 VALGRIND_FLAGS="--leak-check=full --show-leak-kinds=all
 	--errors-for-leak-kinds=all --quiet"
 TEST_DIR="testy_forward"
@@ -40,7 +39,7 @@ test_cmake() {
   # Test CMake Release
   mkdir tmp_cmake_$1_forward_test
   cd tmp_cmake_$1_forward_test || exit
-  cmake -D CMAKE_BUILD_TYPE=$1 ../$SRC_DIR/..  > /dev/null
+  cmake -D CMAKE_BUILD_TYPE=$1 $SRC_DIR/..  > /dev/null
   make > /dev/null
 
   printf "[OK] TEST CMAKE $1\n"
@@ -58,7 +57,7 @@ test_doc() {
   # Test CMake Release
   mkdir tmp_doc_forward_test
   cd tmp_doc_forward_test || exit
-  cmake  ../$SRC_DIR/..  > /dev/null
+  cmake  $SRC_DIR/..  > /dev/null
   make > /dev/null
   make doc 2> temp_message 1> /dev/null
 
@@ -164,7 +163,7 @@ then
 	echo -e "\n${BOLD}========= Running instrumented =========${NORMAL}\n"
 	echo -n "Compiling... "
 
-	$CC $CFLAGS -o $INSTR_OUT $INSTR_IN $SRC_FILES >/dev/null
+	$CC $CFALGS_WRAP -o $INSTR_OUT $INSTR_IN $SRC_FILES >/dev/null
   [ "$?" -ne 0 ] && printf "${C_RED}Compilation error${C_DEFAULT}\n" && exit 1
 	
 	echo -e "done"
