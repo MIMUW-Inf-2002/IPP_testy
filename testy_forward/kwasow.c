@@ -19,24 +19,6 @@ void printTestSuccess(int testNumber) {
   printf("Test %i: \033[0;32mPASSED\033[0m\n", testNumber);
 }
 
-bool onlyLinuxMessageShown = false;
-void printMemoryUsage(char pass) {
-  #ifdef __linux__
-    FILE *file = fopen("/proc/self/statm", "r");
-    if (file != NULL) {
-      size_t memoryUsage = 0;
-      fscanf(file, "%lu", &memoryUsage);
-      fclose(file);
-      printf("%lu blocks in use after pass %c\n", memoryUsage, pass);
-    }
-  #else
-    if (!onlyLinuxMessageShown) {
-      printf("Memory usage only available on Linux - sorry\n");
-      onlyLinuxMessageShown = true;
-    }
-  #endif
-}
-
 int main(int argc, char **argv) {
 	bool testReverse = true;
 
@@ -524,13 +506,10 @@ int main(int argc, char **argv) {
   // will likely still pass if >=16GB of memory is available.
   printSection("Testing if dead branches are deleted");
   
-  printf("> These tests make over 100,000,000 allocations, so it might be *very* "
-         "slow, when running with valgrind, but it will pass.\n");
-  printf("> Printed memory usage should stay (almost) constant. Please analyze "
-         "it on your own.\n");
-  printf("> Do not compare your numbers to others. Do not use them to measure "
-         "how good your solution is. Only check if they are constant.\n");
-  printf("> More info on the tests can be found in kwasow.c's main function\n");
+  printf("> These tests make over 50,000,000 allocations per test, so it might "
+         "be *very* slow, when running with valgrind, but it will pass.\n");
+  printf("> More info on the tests can be found in kwasow.c's main function.\n");
+  printf("> These tests are meant to be run on a machine with 4GB of RAM.\n");
 
   char *bigString = calloc(BIG_STRING_SIZE + 1, sizeof(char));
   if (bigString != NULL) {
@@ -552,8 +531,8 @@ int main(int argc, char **argv) {
       phnumDelete(pnum);
       phfwdRemove(pf, bigString);
 
-      // Print memory usage
-      printMemoryUsage(c);
+      // Print pass
+      printf("Completed pass %c\n", c);
     }
 
     phfwdDelete(pf);
@@ -576,8 +555,8 @@ int main(int argc, char **argv) {
         phnumDelete(pnum);
         phfwdRemove(pf, "*");
 
-        // Print memory usage
-        printMemoryUsage(c);
+        // Print pass
+        printf("Completed pass %c\n", c);
       }
 
       phfwdDelete(pf);
@@ -608,8 +587,8 @@ int main(int argc, char **argv) {
         phnumDelete(pnum);
         phfwdRemove(pf, "*");
 
-        // Print memory usage
-        printMemoryUsage(c);
+        // Print pass
+        printf("Completed pass %c\n", c);
       }
 
       phfwdDelete(pf);
