@@ -666,6 +666,18 @@ static unsigned alloc_fail_test(void) {
     return visited;
   }
 
+  if (phfwdAdd(pf, "300", "4")) {
+    visited |= 010;
+  }
+  else if (phfwdAdd(pf, "300", "4")) {
+    visited |= 020;
+  }
+  else {
+    visited |= 040;
+    phfwdDelete(pf);
+    return visited;
+  }
+
   if ((pn = phfwdGet(pf, "5791")) != NULL) {
     visited |= 0100;
   }
@@ -690,6 +702,16 @@ static unsigned alloc_fail_test(void) {
     visited |= 04000;
     phfwdDelete(pf);
     return visited;
+  }
+
+  // Obecne przekierowania: 300 -> 4, 579 -> 4.
+  if(strcmp(phnumGet(pn, 0), "300") != 0
+    || strcmp(phnumGet(pn, 1), "4") != 0
+    || strcmp(phnumGet(pn, 2), "579") != 0){
+      printf("Funkcja zwraca niepoprawny PhoneNumbers.\n");
+      visited |= 04000;
+  } else {
+      visited |= 01000;
   }
 
   phnumDelete(pn);
