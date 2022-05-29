@@ -679,6 +679,20 @@ static unsigned alloc_fail_test(void) {
   }
 
   phnumDelete(pn);
+
+  if ((pn = phfwdReverse(pf, "4")) != NULL) {
+    visited |= 01000;
+  }
+  else if ((pn = phfwdReverse(pf, "4")) != NULL) {
+    visited |= 02000;
+  }
+  else {
+    visited |= 04000;
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  phnumDelete(pn);
   phfwdDelete(pf);
   return visited;
 }
@@ -752,6 +766,6 @@ static int do_test(int (*function)(void)) {
 
 int main(void) {
   for (size_t i = 0; i < SIZE(test_list); ++i)
-    (void)do_test(test_list[i].function);
+    printf("Test no.: %lu, result: %i\n", i, do_test(test_list[i].function));
   return 0;
 }
