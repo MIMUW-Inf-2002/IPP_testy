@@ -23,8 +23,6 @@
 extern char quite_long_magic_string[];
 char quite_long_magic_string[] = "MAGIC";
 
-bool testReverse = false;
-
 // Możliwe wyniki testu
 #define PASS 0
 #define FAIL 1
@@ -694,21 +692,19 @@ static unsigned alloc_fail_test(void) {
 
   phnumDelete(pn);
 
-  if (testReverse) {
-    if ((pn = phfwdReverse(pf, "4")) != NULL) {
-      visited |= 01000;
-    }
-    else if ((pn = phfwdReverse(pf, "4")) != NULL) {
-      visited |= 02000;
-    }
-    else {
-      visited |= 04000;
-      phfwdDelete(pf);
-      return visited;
-    }
-
-    phnumDelete(pn);
+  if ((pn = phfwdReverse(pf, "4")) != NULL) {
+    visited |= 01000;
   }
+  else if ((pn = phfwdReverse(pf, "4")) != NULL) {
+    visited |= 02000;
+  }
+  else {
+    visited |= 04000;
+    phfwdDelete(pf);
+    return visited;
+   }
+
+	phnumDelete(pn);
   
   phfwdDelete(pf);
   return visited;
@@ -781,13 +777,9 @@ static int do_test(int (*function)(void)) {
   return result;
 }
 
-int main(int argc, char **argv) {
-  if (argc != 1) {
-		if (strcmp(argv[0], "s"))
-			testReverse = false;
-	}
-
+int main(void) {
   for (size_t i = 0; i < SIZE(test_list); ++i)
     printf("Test no.: %lu, result: %i\n", i, do_test(test_list[i].function));
-  return 0;
+  
+	return 0;
 }

@@ -7,16 +7,8 @@
 #include <string.h>
 #include <stdio.h>
 
-int main(int argc, char **argv)
+int main(void)
 {
-
-	bool testReverse = true;
-
-	if (argc != 1) {
-		if (strcmp(argv[1], "s") == 0)
-			testReverse = false;
-	}
-
 	PhoneForward *pf;
 	PhoneNumbers *pnum;
 
@@ -33916,7 +33908,7 @@ int main(int argc, char **argv)
 	phfwdRemove(pf, "598");
 	phfwdRemove(pf, "945");
 	phfwdRemove(pf, "739");
-	if (testReverse) {
+
 		printf("test reverse\n");
 		assert(phfwdAdd(pf, "129", "137") == true);
 		assert(phfwdAdd(pf, "138", "116") == true);
@@ -40603,6 +40595,6 @@ int main(int argc, char **argv)
 		assert(phnumGet(pnum, 1) == NULL);
 		phnumDelete(pnum);
 		phfwdRemove(pf, "15");
-	}
+
 	phfwdDelete(pf);
 }
