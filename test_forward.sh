@@ -14,7 +14,6 @@ NORMAL=$(tput sgr0)
 C_RED="\033[0;31m"
 C_DEFAULT="\033[0m"
 
-SKIP_REV_FLAG=""
 SKIP_CMAKE_FLAG=""
 RUN_VALGRIND_FLAG=0
 
@@ -24,7 +23,6 @@ print_usage() {
   options="Options:
     -h   show this help message
     -c   remove test files
-    -s   skip tests for phfwdReverse()
     -m   skip cmake and doc tests
     -v   run tests with valgrind"
   printf "%s\n%s\n" "$header" "$options"
@@ -79,7 +77,6 @@ while getopts 'chsvm' FLAG; do
 	case "${FLAG}" in
 		c) clean; exit 0;;
 		h) print_usage; exit 0;;
-		s) SKIP_REV_FLAG="s";;
 		m) SKIP_CMAKE_FLAG="m";;
 		v) RUN_VALGRIND_FLAG=1;;
 		*) print_usage; exit 1;;
@@ -145,9 +142,9 @@ do
 	
 	if [[ $RUN_VALGRIND_FLAG == 1 ]]
 	then
-		valgrind $VALGRIND_FLAGS ./${TEST%.c}.o $SKIP_REV_FLAG
+		valgrind $VALGRIND_FLAGS ./${TEST%.c}.o
 	else
-		time ./${TEST%.c}.o $SKIP_REV_FLAG
+		time ./${TEST%.c}.o
 	fi
 done
 
@@ -171,9 +168,9 @@ then
 	
 	if [[ $RUN_VALGRIND_FLAG == 1 ]]
 	then
-		valgrind $VALGRIND_FLAGS ./$INSTR_OUT $SKIP_REV_FLAG
+		valgrind $VALGRIND_FLAGS ./$INSTR_OUT
 	else
-		time ./$INSTR_OUT $SKIP_REV_FLAG
+		time ./$INSTR_OUT
 	fi
 fi
 
