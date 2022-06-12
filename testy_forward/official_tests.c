@@ -996,6 +996,83 @@ static unsigned long alloc_fail_test_2(void) {
   return visited;
 }
 
+// Test reakcji implementacji na niepowodzenie alokacji pamięci
+// takie jak w pierwszej części tylko poszerzone o funkcje
+// phfwdReverse i phfwdGetReverse
+static unsigned long alloc_fail_test_3(void) {
+    unsigned visited = 0;
+  PhoneForward *pf = NULL;
+  PhoneNumbers *pn = NULL;
+
+  if ((pf = phfwdNew()) != NULL) {
+    visited |= 01;
+  }
+  else if ((pf = phfwdNew()) != NULL) {
+    visited |= 02;
+  }
+  else {
+    visited |= 04;
+    return visited;
+  }
+
+  if (phfwdAdd(pf, "579", "4")) {
+    visited |= 010;
+  }
+  else if (phfwdAdd(pf, "579", "4")) {
+    visited |= 020;
+  }
+  else {
+    visited |= 040;
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  if ((pn = phfwdGet(pf, "5791")) != NULL) {
+    visited |= 0100;
+  }
+  else if ((pn = phfwdGet(pf, "5791")) != NULL) {
+    visited |= 0200;
+  }
+  else {
+    visited |= 0400;
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  phnumDelete(pn);
+
+  if ((pn = phfwdReverse(pf, "4")) != NULL) {
+    visited |= 01000;
+  }
+  else if ((pn = phfwdReverse(pf, "4")) != NULL) {
+    visited |= 02000;
+  }
+  else {
+    visited |= 04000;
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  phnumDelete(pn);
+
+  if ((pn = phfwdGetReverse(pf, "4")) != NULL) {
+    visited |= 010000;
+  }
+  else if ((pn = phfwdGetReverse(pf, "4")) != NULL) {
+    visited |= 020000;
+  }
+  else {
+    visited |= 040000;
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  phnumDelete(pn);
+
+  phfwdDelete(pf);
+  return visited;
+}
+
 // Sprawdzenie reakcji implementacji na niepowodzenie alokacji pamięci
 static int memory_test(unsigned long (* test_function)(void)) {
   unsigned fail, pass;
@@ -1035,6 +1112,37 @@ static int alloc_fail_2(void) {
   return memory_test(alloc_fail_test_2);
 }
 
+// Z pierwszej części
+static int alloc_fail_3(void) {
+  unsigned fail, pass;
+  for (fail = 0, pass = 0, fail_counter = 1; fail < 3 && pass < 3; ++fail_counter) {
+    call_counter = 0;
+    alloc_counter = 0;
+    free_counter = 0;
+    function_name = NULL;
+    unsigned visited_point = alloc_fail_test_3();
+
+    if (alloc_counter != free_counter || (visited_point & 04444444444) != 0) {
+      fprintf(stderr,
+              "fail_counter %u, alloc_counter %u, free_counter %u, "
+              "function_name %s, visited_point %o\n",
+              fail_counter, alloc_counter, free_counter,
+              function_name, visited_point);
+      ++fail;
+    }
+    if (function_name == NULL)
+      ++pass;
+    else
+      pass = 0;
+  }
+  if (wrap_flag && fail == 0)
+    return PASS_INSTRUMENTED;
+  else if (!wrap_flag && fail == 0)
+    return PASS;
+  else
+    return FAIL;
+}
+
 /** URUCHAMIANIE TESTÓW **/
 
 typedef struct {
@@ -1069,6 +1177,7 @@ static const test_list_t test_list[] = {
   TEST(sort),
   TEST(alloc_fail_1),
   TEST(alloc_fail_2),
+  TEST(alloc_fail_3),
 };
 
 static int do_test(int (*function)(void)) {
