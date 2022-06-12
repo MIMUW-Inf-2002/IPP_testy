@@ -23,7 +23,7 @@ print_usage() {
   options="Options:
     -h   show this help message
     -c   remove test files
-    -m   skip cmake and doc tests
+    -m   skip cmake tests
     -v   run tests with valgrind"
   printf "%s\n%s\n" "$header" "$options"
 }
@@ -52,26 +52,6 @@ test_cmake() {
 
 }
 
-test_doc() {
-  # Test CMake Release
-  mkdir tmp_doc_forward_test
-  cd tmp_doc_forward_test || exit
-  cmake  ../$SRC_DIR/..  > /dev/null
-  make > /dev/null
-  make doc 2> temp_message 1> /dev/null
-
-  if [ -s temp_message ]; then
-      printf "[ERROR] Documentation has warnings\n"
-    else
-      printf "[OK] Documentation has no warnings\n"
-    fi
-  make clean > temp_message
-  rm temp_message
-  cd ..
-  rm -r -f  tmp_doc_forward_test
-
-}
-
 # Check flags
 while getopts 'chsvm' FLAG; do
 	case "${FLAG}" in
@@ -89,8 +69,7 @@ done
 SRC_DIR=${@:$#}
 
 # Notify user if skipping tests
-[ "$SKIP_CMAKE_FLAG" == "m" ] && printf "Skipping tests for cmake and doc\n"
-[ "$SKIP_REV_FLAG" == "s" ] && printf "Skipping tests for phfwdReverse()\n"
+[ "$SKIP_CMAKE_FLAG" == "m" ] && printf "Skipping tests for cmake\n"
 [ $RUN_VALGRIND_FLAG == 1 ] && printf "Running tests with valgrind\n"
 
 # Check if SRC_DIR exists
@@ -103,8 +82,6 @@ SRC_DIR=${@:$#}
 [ "$SKIP_CMAKE_FLAG" == "m" ] || test_cmake ''
 [ "$SKIP_CMAKE_FLAG" == "m" ] || test_cmake 'Release'
 [ "$SKIP_CMAKE_FLAG" == "m" ] || test_cmake 'Test'
-[ "$SKIP_CMAKE_FLAG" == "m" ] || test_doc
-
 
 # Compile and run tests
 SRC_FILES=()
