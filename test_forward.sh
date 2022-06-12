@@ -130,7 +130,7 @@ done
 #                           Instrumented tests                               #
 ##############################################################################
 INSTR_OUT="$TEST_DIR/instrumented.o"
-INSTR_IN="$TEST_DIR/adjusted_part1_tests.c"
+INSTR_IN="$TEST_DIR/official_tests.c"
 
 
 if [ -f $INSTR_IN ]
