@@ -26,6 +26,7 @@ bool phfwdAdd(PhoneForward *pf, char const *num1, char const *num2);
 void phfwdRemove(PhoneForward *pf, char const *num);
 PhoneNumbers * phfwdGet(PhoneForward const *pf, char const *num);
 PhoneNumbers * phfwdReverse(PhoneForward const *pf, char const *num);
+PhoneNumbers * phfwdGetReverse(PhoneForward const *pf, char const *num);
 void phnumDelete(PhoneNumbers *pnum);
 char const * phnumGet(PhoneNumbers const *pnum, size_t idx);
 

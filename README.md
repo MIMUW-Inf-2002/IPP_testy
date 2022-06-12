@@ -20,14 +20,6 @@ Ewentualne komentarze do testów powinny znaleźć się w funkcji main danego te
 Wszystkie testy (plik z funkcją main) od jednego autora powinny znajdować się w jednym pliku,
 żeby uniknąć bałaganu.
 
-Jeśli test sprawdza też działanie funkcji `phfwdReverse()` to powinien przyjmować jako
-argument parameter `s` w następujący sposób:
-
-`./testy.o s`
-
-i jeżeli parametr został podany, to powinny pominąć testy tej funkcji. Przykład jak to zrobić
-znajduje się w pliku `phone_forward_example.c`.
-
 #### 2. Testowanie
 
 Aby rozpocząć testowanie należy uruchomić skrypt testujący, znajdujący się w katalogu
@@ -39,8 +31,7 @@ Usage: ./test_forward.sh [options] <path/to/src>
 Options:
     -h   show this help message
     -c   remove test files
-    -s   skip tests for phfwdReverse()
-    -m   skip cmake and doc tests
+    -m   skip cmake tests
     -v   run tests with valgrind
 ```
 

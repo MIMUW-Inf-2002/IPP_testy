@@ -1,5 +1,3 @@
-/* Tests adjusted by Rentib */
-
 #ifndef _GNU_SOURCE
   #define _GNU_SOURCE
 #endif
@@ -22,8 +20,6 @@
 // program w całości wykonał się poprawnie.
 extern char quite_long_magic_string[];
 char quite_long_magic_string[] = "MAGIC";
-
-bool testReverse = false;
 
 // Możliwe wyniki testu
 #define PASS 0
@@ -121,6 +117,18 @@ bool testReverse = false;
     phnumDelete(_p);        \
   } while (0)
 
+// Oczekiwane odwrotne przekierowania z A
+#define RCHCK(p, A, ...)                     \
+  do {                                       \
+    PhoneNumbers *_p;                        \
+    N(_p = phfwdReverse(p, A));              \
+    char const *_r[] = {__VA_ARGS__};        \
+    for (size_t _k = 0; _k < SIZE(_r); ++_k) \
+      R(_p, _k, _r[_k]);                     \
+    Q(_p, SIZE(_r));                         \
+    phnumDelete(_p);                         \
+  } while (0)
+
 /** WŁAŚCIWE TESTY **/
 
 // Tylko utworzenie i usunięcie struktury
@@ -140,6 +148,8 @@ static int no_forward(void) {
     phfwdRemove(pf, n);
   for (n[0] = '0'; n[0] <= '9'; ++n[0])
     CHECK(pf, n, n);
+  for (n[0] = '9'; n[0] >= '0'; --n[0])
+    RCHCK(pf, n, n);
 
   CLEAN(pf);
 }
@@ -187,6 +197,17 @@ static int wrong_arguments(void) {
   Z(phfwdGet(NULL, NULL));
   Z(phfwdGet(NULL, "abc"));
 
+  E(phfwdReverse(pf, ""));
+  E(phfwdReverse(pf, "e"));
+  E(phfwdReverse(pf, " "));
+  E(phfwdReverse(pf, "7f"));
+  E(phfwdReverse(pf, "/"));
+  E(phfwdReverse(pf, "%"));
+  E(phfwdReverse(pf, ":"));
+  E(phfwdReverse(pf, ";"));
+  E(phfwdReverse(pf, ">"));
+  E(phfwdReverse(pf, "@"));
+
   phfwdRemove(pf, "");
   phfwdRemove(pf, "g");
   phfwdRemove(pf, " ");
@@ -216,6 +237,7 @@ static int malicious_arguments(void) {
 
   F(phfwdAdd(pf, mem, mem));
   E(phfwdGet(pf, mem));
+  E(phfwdReverse(pf, mem));
   phfwdRemove(pf, mem);
 
   if (munmap(mem, page_size) < 0)
@@ -238,6 +260,14 @@ static int breaking_struct(void) {
   F(phfwdAdd(pf, "2D", "0"));
   F(phfwdAdd(pf, "B", "2"));
   phfwdRemove(pf, "C");
+
+  for (a[0] = '0', b[0] = '9'; a[0] <= '9'; ++a[0], --b[0]) {
+    CHECK(pf, a, b);
+    if (a[0] < b[0])
+      RCHCK(pf, b, a, b);
+    else
+      RCHCK(pf, b, b, a);
+  }
 
   CLEAN(pf);
 }
@@ -262,6 +292,7 @@ static int long_numbers(void) {
 
   T(phfwdAdd(pf, n1, n3));
   CHECK(pf, n2, n4);
+  RCHCK(pf, n4, n2, n4);
 
   CLEAN(pf);
 
@@ -269,6 +300,38 @@ static int long_numbers(void) {
   #undef LEN2
   #undef LEN3
   #undef LEN4
+}
+
+// Dużo numerów w strukturze PhoneNumbers
+static int many_numbers(void) {
+  #define LEN9 20
+  #define COUNT9 9
+
+  char n9[COUNT9 * COUNT9][LEN9 + 1];
+  PhoneNumbers *pn;
+
+  for (int i = 0; i < COUNT9; ++i) {
+    for (int j = 0; j < COUNT9; ++j) {
+      FILL(n9[COUNT9 * i + j], 0, LEN9 / 2, '0' + i);
+      FILL(n9[COUNT9 * i + j], LEN9 / 2, LEN9, '0' + j);
+    }
+  }
+
+  INIT(pf);
+
+  for (int i = 0; i < COUNT9 * COUNT9; ++i)
+    T(phfwdAdd(pf, n9[i], "9"));
+  N(pn = phfwdReverse(pf, "9"));
+  for (int i = 0; i < COUNT9 * COUNT9; ++i)
+    R(pn, i, n9[i]);
+  R(pn, COUNT9 * COUNT9, "9");
+  Q(pn, COUNT9 * COUNT9 + 1);
+  phnumDelete(pn);
+
+  CLEAN(pf);
+
+  #undef LEN9
+  #undef COUNT9
 }
 
 // Kopiowanie wartości do wnętrza struktury
@@ -322,12 +385,14 @@ static int delete_null(void) {
 // Zachowanie wyniku po zmianie struktury
 static int persistent_results(void) {
   PhoneNumbers *png;
+  PhoneNumbers *pnr;
 
   INIT(pf);
 
   T(phfwdAdd(pf, "3", "4"));
 
   N(png = phfwdGet(pf, "33"));
+  N(pnr = phfwdReverse(pf, "43"));
 
   T(phfwdAdd(pf, "3", "5"));
   phfwdRemove(pf, "3");
@@ -336,6 +401,11 @@ static int persistent_results(void) {
   R(png, 0, "43");
   Q(png, 1);
   phnumDelete(png);
+
+  R(pnr, 0, "33");
+  R(pnr, 1, "43");
+  Q(pnr, 2);
+  phnumDelete(pnr);
 
   return PASS;
 }
@@ -368,6 +438,17 @@ static int remove_forward(void) {
   CLEAN(pf);
 }
 
+// Proste przekierowanie odwrotne
+static int simple_reverse(void) {
+  INIT(pf);
+
+  T(phfwdAdd(pf, "2", "4"));
+  T(phfwdAdd(pf, "23", "4"));
+  RCHCK(pf, "434", "2334", "234", "434");
+
+  CLEAN(pf);
+}
+
 // Różne operacje na strukturze
 static int various_ops(void) {
   INIT(pf);
@@ -378,14 +459,18 @@ static int various_ops(void) {
   CHECK(pf, "12345", "945");
   CHECK(pf, "123456", "777777");
   CHECK(pf, "997", "997");
+  RCHCK(pf, "987654321", "12387654321", "987654321");
   phfwdRemove(pf, "12");
   CHECK(pf, "123456", "123456");
+  RCHCK(pf, "987654321", "987654321");
   T(phfwdAdd(pf, "567", "0"));
   T(phfwdAdd(pf, "5678", "08"));
+  RCHCK(pf, "08", "08", "5678");
   T(phfwdAdd(pf, "12", "123"));
   CHECK(pf, "123", "1233");
   T(phfwdAdd(pf, "2", "4"));
   T(phfwdAdd(pf, "23", "4"));
+  RCHCK(pf, "434", "2334", "234", "434");
 
   phfwdDelete(pf);
   N(pf = phfwdNew());
@@ -393,6 +478,7 @@ static int various_ops(void) {
   T(phfwdAdd(pf, "123", "76"));
   CHECK(pf, "1234581", "764581");
   CHECK(pf, "7581", "7581");
+  RCHCK(pf, "7581", "7581");
 
   CLEAN(pf);
 }
@@ -431,6 +517,11 @@ static int many_ops() {
     CHECK(pf, b1, b1);
   }
 
+  for (unsigned i = xfrom / div3; i <= xto / div3; ++i) {
+    sprintf(b1, format3, i);
+    RCHCK(pf, b1, b1);
+  }
+
   for (unsigned i = xfrom / div2; i <= xto / div2; ++i) {
     sprintf(b1, format2, i);
     phfwdRemove(pf, b1);
@@ -439,6 +530,7 @@ static int many_ops() {
   for (unsigned i = xfrom / div0; i <= xto / div0; ++i) {
     sprintf(b1, format0, i);
     CHECK(pf, b1, b1);
+    RCHCK(pf, b1, b1);
   }
 
   CLEAN(pf);
@@ -481,6 +573,10 @@ static int very_long(void) {
     base[LONG_LEN]     = '0' + i % 10;
     base[LONG_LEN + 1] = '0' + i / 10;
     CHECK(pf, base, b);
+    if (i < 2)
+      RCHCK(pf, b, b, base);
+    else
+      RCHCK(pf, b, base, b);
   }
 
   free(base);
@@ -506,6 +602,7 @@ static int many_remove(void) {
   }
   T(phfwdAdd(pf, "123456789", "0"));
   phfwdRemove(pf, "0");
+  RCHCK(pf, "0123456789", "0123456789", "123456789123456789");
 
   free(base);
   CLEAN(pf);
@@ -541,6 +638,7 @@ static int add_remove(void) {
     sprintf(b1, yformat, i);
     sprintf(b2, yformat yformat, i, i);
     CHECK(pf, b1, b2);
+    RCHCK(pf, b2, b1, b2);
   }
 
   CLEAN(pf);
@@ -549,6 +647,75 @@ static int add_remove(void) {
   #undef yto
   #undef yformat
   #undef REPEAT_COUNT
+}
+
+// Różne operacje na strukturze z wykorzystaniem 12 cyfr
+static int twelve_digits(void) {
+  INIT(pf);
+
+  T(phfwdAdd(pf, "*#3", "9"));
+  CHECK(pf, "*#34", "94");
+  T(phfwdAdd(pf, "*#3456", "777777"));
+  CHECK(pf, "*#345", "945");
+  CHECK(pf, "*#3456", "777777");
+  CHECK(pf, "997", "997");
+  RCHCK(pf, "9876543#*", "9876543#*", "*#3876543#*");
+  phfwdRemove(pf, "*#");
+  CHECK(pf, "*#3456", "*#3456");
+  RCHCK(pf, "9876543#*", "9876543#*");
+  T(phfwdAdd(pf, "567", "0"));
+  T(phfwdAdd(pf, "5678", "08"));
+  RCHCK(pf, "08", "08", "5678");
+  T(phfwdAdd(pf, "*#", "*#3"));
+  CHECK(pf, "*#3", "*#33");
+  T(phfwdAdd(pf, "#", "4"));
+  T(phfwdAdd(pf, "#3", "4"));
+  RCHCK(pf, "434", "434", "#334", "#34");
+
+  phfwdDelete(pf);
+  N(pf = phfwdNew());
+
+  T(phfwdAdd(pf, "1#3", "76"));
+  CHECK(pf, "1#3458*", "76458*");
+  CHECK(pf, "758*2", "758*2");
+  RCHCK(pf, "758*2", "758*2");
+
+  CLEAN(pf);
+}
+
+// Test dwóch numerów z wzajemnym przekierowaniem jednego na drugi
+static int cycle(void) {
+  INIT(pf);
+
+  T(phfwdAdd(pf, "123", "124"));
+  T(phfwdAdd(pf, "124", "123"));
+  CHECK(pf, "123", "124");
+  CHECK(pf, "124", "123");
+  RCHCK(pf, "123", "123", "124");
+  RCHCK(pf, "124", "123", "124");
+
+  CLEAN(pf);
+}
+
+// Test sortowania wyniku phfwdReverse
+static int sort(void) {
+  INIT(pf);
+
+  T(phfwdAdd(pf, "027", "07"));
+  T(phfwdAdd(pf, "0*7", "07"));
+  T(phfwdAdd(pf, "097", "07"));
+  T(phfwdAdd(pf, "037", "07"));
+  T(phfwdAdd(pf, "057", "07"));
+  T(phfwdAdd(pf, "077", "07"));
+  T(phfwdAdd(pf, "067", "07"));
+  T(phfwdAdd(pf, "047", "07"));
+  T(phfwdAdd(pf, "007", "07"));
+  T(phfwdAdd(pf, "017", "07"));
+  T(phfwdAdd(pf, "0#7", "07"));
+  T(phfwdAdd(pf, "087", "07"));
+  RCHCK(pf, "07", "007", "017", "027", "037", "047", "057", "067", "07", "077", "087", "097", "0*7", "0#7");
+
+  CLEAN(pf);
 }
 
 /** TESTY ALOKACJI PAMIĘCI
@@ -639,9 +806,201 @@ void __wrap_free(void *ptr) {
     ++free_counter;
 }
 
+#define V(code, where) (((unsigned long)code) << (3 * where))
+
 // Test reakcji implementacji na niepowodzenie alokacji pamięci
-static unsigned alloc_fail_test(void) {
-  unsigned visited = 0;
+// w funkcjach phfwdNew, phfwdAdd, phfwdGet
+static unsigned long alloc_fail_test_1(void) {
+  unsigned long visited = 0;
+  PhoneForward *pf = NULL;
+  PhoneNumbers *pn = NULL;
+  char const   *ps = NULL;
+
+  if ((pf = phfwdNew()) != NULL) {
+    visited |= V(1, 0);
+  }
+  else if ((pf = phfwdNew()) != NULL) {
+    visited |= V(2, 0);
+  }
+  else {
+    visited |= V(4, 0);
+    return visited;
+  }
+
+  if (phfwdAdd(pf, "579", "4")) {
+    visited |= V(1, 1);
+  }
+  else if (phfwdAdd(pf, "579", "4")) {
+    visited |= V(2, 1);
+  }
+  else {
+    visited |= V(4, 1);
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  if ((pn = phfwdGet(pf, "5791")) != NULL) {
+    visited |= V(1, 2);
+  }
+  else if ((pn = phfwdGet(pf, "5791")) != NULL) {
+    visited |= V(2, 2);
+  }
+  else {
+    visited |= V(4, 2);
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  if ((ps = phnumGet(pn, 0)) != NULL)
+    visited |= V(1, 3);
+  else if ((ps = phnumGet(pn, 0)) != NULL)
+    visited |= V(2, 3);
+  else
+    visited |= V(4, 3);
+
+  if (ps != NULL && strcmp(ps, "41") != 0)
+    visited |= V(4, 3);
+
+  if (phnumGet(pn, 1) == NULL)
+    visited |= V(1, 4);
+  else
+    visited |= V(4, 4);
+
+  phnumDelete(pn);
+  phfwdDelete(pf);
+  return visited;
+}
+
+// Test reakcji implementacji na niepowodzenie alokacji pamięci
+// w funkcjach phfwdNew, phfwdAdd, phfwdReverse
+static unsigned long alloc_fail_test_2(void) {
+  unsigned long visited = 0;
+  PhoneForward *pf = NULL;
+  PhoneNumbers *pn = NULL;
+  char const   *ps = NULL;
+
+  if ((pf = phfwdNew()) != NULL) {
+    visited |= V(1, 0);
+  }
+  else if ((pf = phfwdNew()) != NULL) {
+    visited |= V(2, 0);
+  }
+  else {
+    visited |= V(4, 0);
+    return visited;
+  }
+
+  if ((pn = phfwdReverse(pf, "0123456789*#")) != NULL) {
+    visited |= V(1, 1);
+  }
+  else if ((pn = phfwdReverse(pf, "0123456789*#")) != NULL) {
+    visited |= V(2, 1);
+  }
+  else {
+    visited |= V(4, 1);
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  if ((ps = phnumGet(pn, 0)) != NULL)
+    visited |= V(1, 2);
+  else if ((ps = phnumGet(pn, 0)) != NULL)
+    visited |= V(2, 2);
+  else
+    visited |= V(4, 2);
+
+  if  (ps != NULL && strcmp(ps, "0123456789*#") != 0)
+    visited |= V(4, 2);
+
+  if (phnumGet(pn, 1) == NULL)
+    visited |= V(1, 3);
+  else
+    visited |= V(4, 3);
+
+  phnumDelete(pn);
+  pn = NULL;
+
+  if (phfwdAdd(pf, "4", "7")) {
+    visited |= V(1, 4);
+  }
+  else if (phfwdAdd(pf, "4", "7")) {
+    visited |= V(2, 4);
+  }
+  else {
+    visited |= V(4, 4);
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  if (phfwdAdd(pf, "1", "7")) {
+    visited |= V(1, 5);
+  }
+  else if (phfwdAdd(pf, "1", "7")) {
+    visited |= V(2, 5);
+  }
+  else {
+    visited |= V(4, 5);
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  if ((pn = phfwdReverse(pf, "7")) != NULL) {
+    visited |= V(1, 6);
+  }
+  else if ((pn = phfwdReverse(pf, "7")) != NULL) {
+    visited |= V(2, 6);
+  }
+  else {
+    visited |= V(4, 6);
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  if ((ps = phnumGet(pn, 0)) != NULL)
+    visited |= V(1, 7);
+  else if ((ps = phnumGet(pn, 0)) != NULL)
+    visited |= V(2, 7);
+  else
+    visited |= V(4, 7);
+
+  if (ps != NULL && strcmp(ps, "1") != 0)
+    visited |= V(4, 7);
+
+  if ((ps = phnumGet(pn, 1)) != NULL)
+    visited |= V(1, 8);
+  else if ((ps = phnumGet(pn, 1)) != NULL)
+    visited |= V(2, 8);
+  else
+    visited |= V(4, 8);
+
+  if (ps != NULL && strcmp(ps, "4") != 0)
+    visited |= V(4, 8);
+
+  if ((ps = phnumGet(pn, 2)) != NULL)
+    visited |= V(1, 9);
+  else if ((ps = phnumGet(pn, 2)) != NULL)
+    visited |= V(2, 9);
+  else
+    visited |= V(4, 9);
+
+  if (ps != NULL && strcmp(ps, "7") != 0)
+    visited |= V(4, 9);
+
+  if (phnumGet(pn, 3) == NULL)
+    visited |= V(1, 10);
+  else
+    visited |= V(4, 10);
+
+  phnumDelete(pn);
+  phfwdDelete(pf);
+  return visited;
+}
+
+// Test reakcji implementacji na niepowodzenie alokacji pamięci
+// takie jak w pierwszej części tylko poszerzone o funkcje
+// phfwdReverse i phfwdGetReverse
+static unsigned long alloc_fail_test_3(void) {
+    unsigned visited = 0;
   PhoneForward *pf = NULL;
   PhoneNumbers *pn = NULL;
 
@@ -668,18 +1027,6 @@ static unsigned alloc_fail_test(void) {
     return visited;
   }
 
-  if (phfwdAdd(pf, "300", "4")) {
-    visited |= 010;
-  }
-  else if (phfwdAdd(pf, "300", "4")) {
-    visited |= 020;
-  }
-  else {
-    visited |= 040;
-    phfwdDelete(pf);
-    return visited;
-  }
-
   if ((pn = phfwdGet(pf, "5791")) != NULL) {
     visited |= 0100;
   }
@@ -694,35 +1041,86 @@ static unsigned alloc_fail_test(void) {
 
   phnumDelete(pn);
 
-  if (testReverse) {
-    if ((pn = phfwdReverse(pf, "4")) != NULL) {
-      visited |= 01000;
-    }
-    else if ((pn = phfwdReverse(pf, "4")) != NULL) {
-      visited |= 02000;
-    }
-    else {
-      visited |= 04000;
-      phfwdDelete(pf);
-      return visited;
-    }
-
-    phnumDelete(pn);
+  if ((pn = phfwdReverse(pf, "4")) != NULL) {
+    visited |= 01000;
   }
-  
+  else if ((pn = phfwdReverse(pf, "4")) != NULL) {
+    visited |= 02000;
+  }
+  else {
+    visited |= 04000;
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  phnumDelete(pn);
+
+  if ((pn = phfwdGetReverse(pf, "4")) != NULL) {
+    visited |= 010000;
+  }
+  else if ((pn = phfwdGetReverse(pf, "4")) != NULL) {
+    visited |= 020000;
+  }
+  else {
+    visited |= 040000;
+    phfwdDelete(pf);
+    return visited;
+  }
+
+  phnumDelete(pn);
+
   phfwdDelete(pf);
   return visited;
 }
 
 // Sprawdzenie reakcji implementacji na niepowodzenie alokacji pamięci
-static int alloc_fail(void) {
+static int memory_test(unsigned long (* test_function)(void)) {
   unsigned fail, pass;
   for (fail = 0, pass = 0, fail_counter = 1; fail < 3 && pass < 3; ++fail_counter) {
     call_counter = 0;
     alloc_counter = 0;
     free_counter = 0;
     function_name = NULL;
-    unsigned visited_point = alloc_fail_test();
+    unsigned long visited_point = test_function();
+
+    if (alloc_counter != free_counter || (visited_point & 0444444444444444444444UL) != 0) {
+      fprintf(stderr,
+              "fail_counter %u, alloc_counter %u, free_counter %u, "
+              "function_name %s, visited_point %lo\n",
+              fail_counter, alloc_counter, free_counter,
+              function_name, visited_point);
+      ++fail;
+    }
+    if (function_name == NULL)
+      ++pass;
+    else
+      pass = 0;
+  }
+  if (wrap_flag && fail == 0)
+    return PASS_INSTRUMENTED;
+  else if (!wrap_flag && fail == 0)
+    return PASS;
+  else
+    return FAIL;
+}
+
+static int alloc_fail_1(void) {
+  return memory_test(alloc_fail_test_1);
+}
+
+static int alloc_fail_2(void) {
+  return memory_test(alloc_fail_test_2);
+}
+
+// Z pierwszej części
+static int alloc_fail_3(void) {
+  unsigned fail, pass;
+  for (fail = 0, pass = 0, fail_counter = 1; fail < 3 && pass < 3; ++fail_counter) {
+    call_counter = 0;
+    alloc_counter = 0;
+    free_counter = 0;
+    function_name = NULL;
+    unsigned visited_point = alloc_fail_test_3();
 
     if (alloc_counter != free_counter || (visited_point & 04444444444) != 0) {
       fprintf(stderr,
@@ -761,18 +1159,25 @@ static const test_list_t test_list[] = {
   TEST(malicious_arguments),
   TEST(breaking_struct),
   TEST(long_numbers),
+  TEST(many_numbers),
   TEST(copy_arguments),
   TEST(two_structs),
   TEST(delete_null),
   TEST(persistent_results),
   TEST(forward_overwrite),
   TEST(remove_forward),
+  TEST(simple_reverse),
   TEST(various_ops),
   TEST(many_ops),
   TEST(very_long),
   TEST(many_remove),
   TEST(add_remove),
-  TEST(alloc_fail),
+  TEST(twelve_digits),
+  TEST(cycle),
+  TEST(sort),
+  TEST(alloc_fail_1),
+  TEST(alloc_fail_2),
+  TEST(alloc_fail_3),
 };
 
 static int do_test(int (*function)(void)) {
@@ -781,13 +1186,8 @@ static int do_test(int (*function)(void)) {
   return result;
 }
 
-int main(int argc, char **argv) {
-  if (argc != 1) {
-		if (strcmp(argv[0], "s"))
-			testReverse = false;
-	}
-
+int main() {
   for (size_t i = 0; i < SIZE(test_list); ++i)
-    printf("Test no.: %lu, result: %i\n", i, do_test(test_list[i].function));
-  return 0;
+      printf("Test no.: %lu, result: %i\n", i, do_test(test_list[i].function));
 }
+

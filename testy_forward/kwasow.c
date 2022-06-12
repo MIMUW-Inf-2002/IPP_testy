@@ -19,14 +19,7 @@ void printTestSuccess(int testNumber) {
   printf("Test %i: \033[0;32mPASSED\033[0m\n", testNumber);
 }
 
-int main(int argc, char **argv) {
-	bool testReverse = true;
-
-	if (argc != 1) {
-		if (strcmp(argv[0], "s"))
-			testReverse = false;
-	}
-
+int main(void) {
   PhoneForward *pf;
   PhoneNumbers *pnum;
 
@@ -222,6 +215,12 @@ int main(int argc, char **argv) {
 
   phfwdDelete(pf);
 
+	// PhoneNumbers
+	phnumDelete(NULL);
+	printTestSuccess(134);
+	assert(phnumGet(NULL, 0) == NULL);
+	printTestSuccess(135);
+
   // This tests if any global variables are used
   printSection("Testing two structs");
   PhoneForward *pf1 = phfwdNew();
@@ -315,185 +314,183 @@ int main(int argc, char **argv) {
   phfwdDelete(pf);
   
   // (Reverse)
-  if (testReverse) {
-    printSection("Testing reverse basic");
-    pf = phfwdNew();
+	printSection("Testing reverse basic");
+	pf = phfwdNew();
 
-    assert(phfwdAdd(pf, "11", "15") == true);
-    assert(phfwdAdd(pf, "112", "715") == true);
-    assert(phfwdAdd(pf, "3", "16") == true);
-    assert(phfwdAdd(pf, "9", "1") == true);
-    assert(phfwdAdd(pf, "98", "157") == true);
-    assert(phfwdAdd(pf, "9*", "15") == true);
+	assert(phfwdAdd(pf, "11", "15") == true);
+	assert(phfwdAdd(pf, "112", "715") == true);
+	assert(phfwdAdd(pf, "3", "16") == true);
+	assert(phfwdAdd(pf, "9", "1") == true);
+	assert(phfwdAdd(pf, "98", "157") == true);
+	assert(phfwdAdd(pf, "9*", "15") == true);
 
-    // No forwards exist
-    pnum = phfwdReverse(pf, "71#");
-    assert(strcmp(phnumGet(pnum, 0), "71#") == 0);
-    assert(phnumGet(pnum, 1) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(500);
+	// No forwards exist
+	pnum = phfwdReverse(pf, "71#");
+	assert(strcmp(phnumGet(pnum, 0), "71#") == 0);
+	assert(phnumGet(pnum, 1) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(500);
 
-    // Only one forward exists
-    pnum = phfwdReverse(pf, "715");
-    assert(strcmp(phnumGet(pnum, 0), "112") == 0);
-    assert(strcmp(phnumGet(pnum, 1), "715") == 0);
-    assert(phnumGet(pnum, 2) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(501);
+	// Only one forward exists
+	pnum = phfwdReverse(pf, "715");
+	assert(strcmp(phnumGet(pnum, 0), "112") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "715") == 0);
+	assert(phnumGet(pnum, 2) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(501);
 
-    // Multiple forwards exist
-    pnum = phfwdReverse(pf, "157");
-    assert(strcmp(phnumGet(pnum, 0), "117") == 0);
-    assert(strcmp(phnumGet(pnum, 1), "157") == 0);
-    assert(strcmp(phnumGet(pnum, 2), "957") == 0);
-    assert(strcmp(phnumGet(pnum, 3), "98") == 0);
-    assert(strcmp(phnumGet(pnum, 4), "9*7") == 0);
-    assert(phnumGet(pnum, 5) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(502);
+	// Multiple forwards exist
+	pnum = phfwdReverse(pf, "157");
+	assert(strcmp(phnumGet(pnum, 0), "117") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "157") == 0);
+	assert(strcmp(phnumGet(pnum, 2), "957") == 0);
+	assert(strcmp(phnumGet(pnum, 3), "98") == 0);
+	assert(strcmp(phnumGet(pnum, 4), "9*7") == 0);
+	assert(phnumGet(pnum, 5) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(502);
 
-    phfwdRemove(pf, "9");
-    pnum = phfwdReverse(pf, "168");
-    assert(strcmp(phnumGet(pnum, 0), "168") == 0);
-    assert(strcmp(phnumGet(pnum, 1), "38") == 0);
-    assert(phnumGet(pnum, 3) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(503);
-    
-    phfwdRemove(pf, "11");
+	phfwdRemove(pf, "9");
+	pnum = phfwdReverse(pf, "168");
+	assert(strcmp(phnumGet(pnum, 0), "168") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "38") == 0);
+	assert(phnumGet(pnum, 3) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(503);
+	
+	phfwdRemove(pf, "11");
 
-    pnum = phfwdReverse(pf, "715");
-    assert(strcmp(phnumGet(pnum, 0), "715") == 0);
-    assert(phnumGet(pnum, 1) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(504);
+	pnum = phfwdReverse(pf, "715");
+	assert(strcmp(phnumGet(pnum, 0), "715") == 0);
+	assert(phnumGet(pnum, 1) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(504);
 
-    pnum = phfwdReverse(pf, "157#*");
-    assert(strcmp(phnumGet(pnum, 0), "157#*") == 0);
-    assert(phnumGet(pnum, 1) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(505);
+	pnum = phfwdReverse(pf, "157#*");
+	assert(strcmp(phnumGet(pnum, 0), "157#*") == 0);
+	assert(phnumGet(pnum, 1) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(505);
 
-    pnum = phfwdReverse(pf, "16");
-    assert(strcmp(phnumGet(pnum, 0), "16") == 0);
-    assert(strcmp(phnumGet(pnum, 1), "3") == 0);
-    assert(phnumGet(pnum, 2) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(506);
+	pnum = phfwdReverse(pf, "16");
+	assert(strcmp(phnumGet(pnum, 0), "16") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "3") == 0);
+	assert(phnumGet(pnum, 2) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(506);
 
-    phfwdDelete(pf);
+	phfwdDelete(pf);
 
-    // Repeating numbers in reverse result
-    pf = phfwdNew();
-    assert(phfwdAdd(pf, "1", "5") == true);
-    assert(phfwdAdd(pf, "11", "51") == true);
-    assert(phfwdAdd(pf, "111", "511") == true);
+	// Repeating numbers in reverse result
+	pf = phfwdNew();
+	assert(phfwdAdd(pf, "1", "5") == true);
+	assert(phfwdAdd(pf, "11", "51") == true);
+	assert(phfwdAdd(pf, "111", "511") == true);
 
-    pnum = phfwdReverse(pf, "111");
-    assert(strcmp(phnumGet(pnum, 0), "111") == 0);
-    assert(phnumGet(pnum, 1) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(507);
+	pnum = phfwdReverse(pf, "111");
+	assert(strcmp(phnumGet(pnum, 0), "111") == 0);
+	assert(phnumGet(pnum, 1) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(507);
 
-    phfwdDelete(pf);
+	phfwdDelete(pf);
 
-    // Test sorting in reverse
-    pf = phfwdNew();
-    assert(phfwdAdd(pf, "0", "51") == true);
-    assert(phfwdAdd(pf, "1", "51") == true);
-    assert(phfwdAdd(pf, "2", "51") == true);
-    assert(phfwdAdd(pf, "3", "51") == true);
-    assert(phfwdAdd(pf, "4", "51") == true);
-    assert(phfwdAdd(pf, "5", "51") == true);
-    assert(phfwdAdd(pf, "6", "51") == true);
-    assert(phfwdAdd(pf, "7", "51") == true);
-    assert(phfwdAdd(pf, "8", "51") == true);
-    assert(phfwdAdd(pf, "9", "51") == true);
-    assert(phfwdAdd(pf, "*", "51") == true);
-    assert(phfwdAdd(pf, "#", "51") == true);
+	// Test sorting in reverse
+	pf = phfwdNew();
+	assert(phfwdAdd(pf, "0", "51") == true);
+	assert(phfwdAdd(pf, "1", "51") == true);
+	assert(phfwdAdd(pf, "2", "51") == true);
+	assert(phfwdAdd(pf, "3", "51") == true);
+	assert(phfwdAdd(pf, "4", "51") == true);
+	assert(phfwdAdd(pf, "5", "51") == true);
+	assert(phfwdAdd(pf, "6", "51") == true);
+	assert(phfwdAdd(pf, "7", "51") == true);
+	assert(phfwdAdd(pf, "8", "51") == true);
+	assert(phfwdAdd(pf, "9", "51") == true);
+	assert(phfwdAdd(pf, "*", "51") == true);
+	assert(phfwdAdd(pf, "#", "51") == true);
 
-    pnum = phfwdReverse(pf, "51");
-    assert(strcmp(phnumGet(pnum, 0), "0") == 0);
-    assert(strcmp(phnumGet(pnum, 1), "1") == 0);
-    assert(strcmp(phnumGet(pnum, 2), "2") == 0);
-    assert(strcmp(phnumGet(pnum, 3), "3") == 0);
-    assert(strcmp(phnumGet(pnum, 4), "4") == 0);
-    assert(strcmp(phnumGet(pnum, 5), "5") == 0);
-    assert(strcmp(phnumGet(pnum, 6), "51") == 0);
-    assert(strcmp(phnumGet(pnum, 7), "6") == 0);
-    assert(strcmp(phnumGet(pnum, 8), "7") == 0);
-    assert(strcmp(phnumGet(pnum, 9), "8") == 0);
-    assert(strcmp(phnumGet(pnum, 10), "9") == 0);
-    assert(strcmp(phnumGet(pnum, 11), "*") == 0);
-    assert(strcmp(phnumGet(pnum, 12), "#") == 0);
-    assert(phnumGet(pnum, 13) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(508);
+	pnum = phfwdReverse(pf, "51");
+	assert(strcmp(phnumGet(pnum, 0), "0") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "1") == 0);
+	assert(strcmp(phnumGet(pnum, 2), "2") == 0);
+	assert(strcmp(phnumGet(pnum, 3), "3") == 0);
+	assert(strcmp(phnumGet(pnum, 4), "4") == 0);
+	assert(strcmp(phnumGet(pnum, 5), "5") == 0);
+	assert(strcmp(phnumGet(pnum, 6), "51") == 0);
+	assert(strcmp(phnumGet(pnum, 7), "6") == 0);
+	assert(strcmp(phnumGet(pnum, 8), "7") == 0);
+	assert(strcmp(phnumGet(pnum, 9), "8") == 0);
+	assert(strcmp(phnumGet(pnum, 10), "9") == 0);
+	assert(strcmp(phnumGet(pnum, 11), "*") == 0);
+	assert(strcmp(phnumGet(pnum, 12), "#") == 0);
+	assert(phnumGet(pnum, 13) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(508);
 
-    phfwdRemove(pf, "0");
-    phfwdRemove(pf, "5");
-    phfwdRemove(pf, "#");
+	phfwdRemove(pf, "0");
+	phfwdRemove(pf, "5");
+	phfwdRemove(pf, "#");
 
-    pnum = phfwdReverse(pf, "51");
-    assert(strcmp(phnumGet(pnum, 0), "1") == 0);
-    assert(strcmp(phnumGet(pnum, 1), "2") == 0);
-    assert(strcmp(phnumGet(pnum, 2), "3") == 0);
-    assert(strcmp(phnumGet(pnum, 3), "4") == 0);
-    assert(strcmp(phnumGet(pnum, 4), "51") == 0);
-    assert(strcmp(phnumGet(pnum, 5), "6") == 0);
-    assert(strcmp(phnumGet(pnum, 6), "7") == 0);
-    assert(strcmp(phnumGet(pnum, 7), "8") == 0);
-    assert(strcmp(phnumGet(pnum, 8), "9") == 0);
-    assert(strcmp(phnumGet(pnum, 9), "*") == 0);
-    assert(phnumGet(pnum, 10) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(509);
+	pnum = phfwdReverse(pf, "51");
+	assert(strcmp(phnumGet(pnum, 0), "1") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "2") == 0);
+	assert(strcmp(phnumGet(pnum, 2), "3") == 0);
+	assert(strcmp(phnumGet(pnum, 3), "4") == 0);
+	assert(strcmp(phnumGet(pnum, 4), "51") == 0);
+	assert(strcmp(phnumGet(pnum, 5), "6") == 0);
+	assert(strcmp(phnumGet(pnum, 6), "7") == 0);
+	assert(strcmp(phnumGet(pnum, 7), "8") == 0);
+	assert(strcmp(phnumGet(pnum, 8), "9") == 0);
+	assert(strcmp(phnumGet(pnum, 9), "*") == 0);
+	assert(phnumGet(pnum, 10) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(509);
 
-    phfwdDelete(pf);
+	phfwdDelete(pf);
 
-    printSection("Testing reverse incorrect input");
-    pf = phfwdNew();
+	printSection("Testing reverse incorrect input");
+	pf = phfwdNew();
 
-    assert(phfwdReverse(NULL, "123") == NULL);
-    printTestSuccess(600);
-    pnum = phfwdReverse(pf, NULL);
-    assert(pnum != NULL);
-    assert(phnumGet(pnum, 0) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(601);
-    pnum = phfwdReverse(pf, "");
-    assert(pnum != NULL);
-    assert(phnumGet(pnum, 0) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(602);
-    pnum = phfwdReverse(pf, "94bs");
-    assert(pnum != NULL);
-    assert(phnumGet(pnum, 0) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(603);
-    pnum = phfwdReverse(pf, "abc");
-    assert(pnum != NULL);
-    assert(phnumGet(pnum, 0) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(604);
-    pnum = phfwdReverse(pf, ";");
-    assert(pnum != NULL);
-    assert(phnumGet(pnum, 0) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(605);
-    pnum = phfwdReverse(pf, "<>");
-    assert(pnum != NULL);
-    assert(phnumGet(pnum, 0) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(606);
-    pnum = phfwdReverse(pf, "?!");
-    assert(pnum != NULL);
-    assert(phnumGet(pnum, 0) == NULL);
-    phnumDelete(pnum);
-    printTestSuccess(607);
+	assert(phfwdReverse(NULL, "123") == NULL);
+	printTestSuccess(600);
+	pnum = phfwdReverse(pf, NULL);
+	assert(pnum != NULL);
+	assert(phnumGet(pnum, 0) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(601);
+	pnum = phfwdReverse(pf, "");
+	assert(pnum != NULL);
+	assert(phnumGet(pnum, 0) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(602);
+	pnum = phfwdReverse(pf, "94bs");
+	assert(pnum != NULL);
+	assert(phnumGet(pnum, 0) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(603);
+	pnum = phfwdReverse(pf, "abc");
+	assert(pnum != NULL);
+	assert(phnumGet(pnum, 0) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(604);
+	pnum = phfwdReverse(pf, ";");
+	assert(pnum != NULL);
+	assert(phnumGet(pnum, 0) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(605);
+	pnum = phfwdReverse(pf, "<>");
+	assert(pnum != NULL);
+	assert(phnumGet(pnum, 0) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(606);
+	pnum = phfwdReverse(pf, "?!");
+	assert(pnum != NULL);
+	assert(phnumGet(pnum, 0) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(607);
 
-    phfwdDelete(pf);
-  }
+	phfwdDelete(pf);
   
   // This should pass. Memory usage was below 1GB in my implementation, so I would
   // be surprised if anything went past 2-3GB. If it does then there is reason
@@ -539,29 +536,27 @@ int main(int argc, char **argv) {
     printTestSuccess(700);
 
     // Test deleting branches from reverse
-    if (testReverse) {
-      pf = phfwdNew();
-      // Now testing bigString in reverse tree
-      for (char c = '0'; c <= '9'; c++) {
-        // Change first digit
-        bigString[0] = c;
+		pf = phfwdNew();
+		// Now testing bigString in reverse tree
+		for (char c = '0'; c <= '9'; c++) {
+			// Change first digit
+			bigString[0] = c;
 
-        // Add and test
-        assert(phfwdAdd(pf, "*", bigString) == true);
-        pnum = phfwdReverse(pf, bigString);
-        assert(strcmp(phnumGet(pnum, 0), bigString) == 0);
-        assert(strcmp(phnumGet(pnum, 1), "*") == 0);
-        assert(phnumGet(pnum, 2) == NULL);
-        phnumDelete(pnum);
-        phfwdRemove(pf, "*");
+			// Add and test
+			assert(phfwdAdd(pf, "*", bigString) == true);
+			pnum = phfwdReverse(pf, bigString);
+			assert(strcmp(phnumGet(pnum, 0), bigString) == 0);
+			assert(strcmp(phnumGet(pnum, 1), "*") == 0);
+			assert(phnumGet(pnum, 2) == NULL);
+			phnumDelete(pnum);
+			phfwdRemove(pf, "*");
 
-        // Print pass
-        printf("Completed pass %c\n", c);
-      }
+			// Print pass
+			printf("Completed pass %c\n", c);
+		}
 
-      phfwdDelete(pf);
-      printTestSuccess(701);
-    }
+		phfwdDelete(pf);
+		printTestSuccess(701); 
 
     // Test deleting branches from reverse
     // Now there are two numbers in forwards and they are both redirected to the
@@ -569,34 +564,326 @@ int main(int argc, char **argv) {
     // The test checks if the branches are also deleted when the deletion
     // happens while deleting a subtree and not only when deleting the `num`
     // parameter from the phfwdRemove() function.
-    if (testReverse) {
-      pf = phfwdNew();
-      // Now testing bigString in reverse tree
-      for (char c = '0'; c <= '9'; c++) {
-        // Change first digit
-        bigString[0] = c;
+		pf = phfwdNew();
+		// Now testing bigString in reverse tree
+		for (char c = '0'; c <= '9'; c++) {
+			// Change first digit
+			bigString[0] = c;
 
-        // Add and test
-        assert(phfwdAdd(pf, "*", bigString) == true);
-        assert(phfwdAdd(pf, "**", bigString) == true);
-        pnum = phfwdReverse(pf, bigString);
-        assert(strcmp(phnumGet(pnum, 0), bigString) == 0);
-        assert(strcmp(phnumGet(pnum, 1), "*") == 0);
-        assert(strcmp(phnumGet(pnum, 2), "**") == 0);
-        assert(phnumGet(pnum, 3) == NULL);
-        phnumDelete(pnum);
-        phfwdRemove(pf, "*");
+			// Add and test
+			assert(phfwdAdd(pf, "*", bigString) == true);
+			assert(phfwdAdd(pf, "**", bigString) == true);
+			pnum = phfwdReverse(pf, bigString);
+			assert(strcmp(phnumGet(pnum, 0), bigString) == 0);
+			assert(strcmp(phnumGet(pnum, 1), "*") == 0);
+			assert(strcmp(phnumGet(pnum, 2), "**") == 0);
+			assert(phnumGet(pnum, 3) == NULL);
+			phnumDelete(pnum);
+			phfwdRemove(pf, "*");
 
-        // Print pass
-        printf("Completed pass %c\n", c);
-      }
+			// Print pass
+			printf("Completed pass %c\n", c);
+		}
 
-      phfwdDelete(pf);
-      printTestSuccess(702);
-    }
+		phfwdDelete(pf);
+		printTestSuccess(702);
 
     free(bigString);
   } else {
     printf("[ERROR]: Allocation failed for bigString test. Skipping...\n");
   }
+
+  // ############# THIS SECTION CONTAINS TESTS FOR PART 3 ######################	
+  printSection("############### PART 3 ###############");
+	
+	printSection("Testing basic phfwdGetReverse");
+
+  // Test sorting in reverse
+  pf = phfwdNew();
+  assert(phfwdAdd(pf, "0", "51") == true);
+  assert(phfwdAdd(pf, "1", "51") == true);
+  assert(phfwdAdd(pf, "2", "51") == true);
+  assert(phfwdAdd(pf, "3", "51") == true);
+  assert(phfwdAdd(pf, "4", "51") == true);
+  assert(phfwdAdd(pf, "5", "51") == true);
+  assert(phfwdAdd(pf, "6", "51") == true);
+  assert(phfwdAdd(pf, "7", "51") == true);
+  assert(phfwdAdd(pf, "8", "51") == true);
+  assert(phfwdAdd(pf, "9", "51") == true);
+  assert(phfwdAdd(pf, "*", "51") == true);
+  assert(phfwdAdd(pf, "#", "51") == true);
+
+  pnum = phfwdGetReverse(pf, "51");
+  assert(strcmp(phnumGet(pnum, 0), "0") == 0);
+  assert(strcmp(phnumGet(pnum, 1), "1") == 0);
+  assert(strcmp(phnumGet(pnum, 2), "2") == 0);
+  assert(strcmp(phnumGet(pnum, 3), "3") == 0);
+  assert(strcmp(phnumGet(pnum, 4), "4") == 0);
+  assert(strcmp(phnumGet(pnum, 5), "5") == 0);
+  assert(strcmp(phnumGet(pnum, 6), "6") == 0);
+  assert(strcmp(phnumGet(pnum, 7), "7") == 0);
+  assert(strcmp(phnumGet(pnum, 8), "8") == 0);
+  assert(strcmp(phnumGet(pnum, 9), "9") == 0);
+  assert(strcmp(phnumGet(pnum, 10), "*") == 0);
+  assert(strcmp(phnumGet(pnum, 11), "#") == 0);
+  assert(phnumGet(pnum, 12) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(800);
+
+  phfwdRemove(pf, "0");
+  phfwdRemove(pf, "5");
+  phfwdRemove(pf, "#");
+
+  pnum = phfwdGetReverse(pf, "51");
+  assert(strcmp(phnumGet(pnum, 0), "1") == 0);
+  assert(strcmp(phnumGet(pnum, 1), "2") == 0);
+  assert(strcmp(phnumGet(pnum, 2), "3") == 0);
+  assert(strcmp(phnumGet(pnum, 3), "4") == 0);
+	assert(strcmp(phnumGet(pnum, 4), "51") == 0);
+  assert(strcmp(phnumGet(pnum, 5), "6") == 0);
+  assert(strcmp(phnumGet(pnum, 6), "7") == 0);
+  assert(strcmp(phnumGet(pnum, 7), "8") == 0);
+  assert(strcmp(phnumGet(pnum, 8), "9") == 0);
+  assert(strcmp(phnumGet(pnum, 9), "*") == 0);
+  assert(phnumGet(pnum, 10) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(801);
+
+  phfwdDelete(pf);
+	
+	pf = phfwdNew();
+	
+	// No forwards exist
+	pnum = phfwdGetReverse(pf, "123");
+	assert(strcmp(phnumGet(pnum, 0), "123") == 0);
+  assert(phnumGet(pnum, 1) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(802);
+
+  // Wrong forward only
+  assert(phfwdAdd(pf, "123", "5") == true);
+
+  pnum = phfwdGetReverse(pf, "123");
+  assert(pnum != NULL);
+	assert(phnumGet(pnum, 0) == NULL);
+	phnumDelete(pnum);
+	printTestSuccess(803);
+
+	// Test 1
+	assert(phfwdAdd(pf, "2", "34") == true);
+	assert(phfwdAdd(pf, "6", "3") == true);
+	assert(phfwdAdd(pf, "64", "3") == true);
+
+	pnum = phfwdReverse(pf, "342");
+	assert(strcmp(phnumGet(pnum, 0), "22") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "342") == 0);
+	assert(strcmp(phnumGet(pnum, 2), "642") == 0);
+	assert(strcmp(phnumGet(pnum, 3), "6442") == 0);
+	assert(phnumGet(pnum, 4) == NULL);
+	phnumDelete(pnum);
+
+	pnum = phfwdGetReverse(pf, "342");
+	assert(strcmp(phnumGet(pnum, 0), "22") == 0);
+  assert(strcmp(phnumGet(pnum, 1), "342") == 0);
+	assert(strcmp(phnumGet(pnum, 2), "6442") == 0);
+	assert(phnumGet(pnum, 3) == NULL);
+	phnumDelete(pnum);
+
+	assert(phfwdAdd(pf, "342", "5") == true);
+	
+	pnum = phfwdReverse(pf, "342");
+	assert(strcmp(phnumGet(pnum, 0), "22") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "342") == 0);
+	assert(strcmp(phnumGet(pnum, 2), "642") == 0);
+	assert(strcmp(phnumGet(pnum, 3), "6442") == 0);
+	assert(phnumGet(pnum, 4) == NULL);
+	phnumDelete(pnum);
+
+	pnum = phfwdGetReverse(pf, "342");
+	assert(strcmp(phnumGet(pnum, 0), "22") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "6442") == 0);
+	assert(phnumGet(pnum, 2) == NULL);
+	phnumDelete(pnum);
+
+	phfwdRemove(pf, "64");
+
+	pnum = phfwdReverse(pf, "342");
+	assert(strcmp(phnumGet(pnum, 0), "22") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "342") == 0);
+	assert(strcmp(phnumGet(pnum, 2), "642") == 0);
+	assert(phnumGet(pnum, 4) == NULL);
+	phnumDelete(pnum);
+
+	pnum = phfwdGetReverse(pf, "342");
+	assert(strcmp(phnumGet(pnum, 0), "22") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "642") == 0);
+	assert(phnumGet(pnum, 3) == NULL);
+	phnumDelete(pnum);
+
+	phfwdDelete(pf);
+	printTestSuccess(804);
+
+	// Test 2
+	pf = phfwdNew();
+
+	assert(phfwdAdd(pf, "64", "31") == true);
+	assert(phfwdAdd(pf, "645", "3") == true);
+
+	pnum = phfwdReverse(pf, "315");
+	assert(strcmp(phnumGet(pnum, 0), "315") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "645") == 0);
+	assert(strcmp(phnumGet(pnum, 2), "64515") == 0);
+	assert(phnumGet(pnum, 3) == NULL);
+	phnumDelete(pnum);
+
+	pnum = phfwdGetReverse(pf, "315");
+  assert(strcmp(phnumGet(pnum, 0), "315") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "64515") == 0);
+	assert(phnumGet(pnum, 2) == NULL);
+	phnumDelete(pnum);
+
+	assert(phfwdAdd(pf, "315", "5") == true);
+
+	pnum = phfwdReverse(pf, "315");
+	assert(strcmp(phnumGet(pnum, 0), "315") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "645") == 0);
+	assert(strcmp(phnumGet(pnum, 2), "64515") == 0);
+	assert(phnumGet(pnum, 3) == NULL);
+	phnumDelete(pnum);
+
+	pnum = phfwdGetReverse(pf, "315");
+	assert(strcmp(phnumGet(pnum, 0), "64515") == 0);
+	assert(phnumGet(pnum, 1) == NULL);
+	phnumDelete(pnum);
+
+	phfwdRemove(pf, "645");
+	
+	pnum = phfwdReverse(pf, "315");
+	assert(strcmp(phnumGet(pnum, 0), "315") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "645") == 0);
+	assert(phnumGet(pnum, 2) == NULL);
+	phnumDelete(pnum);
+
+	pnum = phfwdGetReverse(pf, "315");
+	assert(strcmp(phnumGet(pnum, 0), "645") == 0);
+	assert(phnumGet(pnum, 1) == NULL);
+	phnumDelete(pnum);
+
+	phfwdDelete(pf);
+	printTestSuccess(805);
+
+	// Test 3
+	pf = phfwdNew();
+
+	assert(phfwdAdd(pf, "1", "78") == true);
+	assert(phfwdAdd(pf, "12", "789") == true);
+	assert(phfwdAdd(pf, "123", "7") == true);
+	assert(phfwdAdd(pf, "1234", "789*") == true);
+
+	pnum = phfwdReverse(pf, "78934");
+	assert(strcmp(phnumGet(pnum, 0), "1234") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "1238934") == 0);
+	assert(strcmp(phnumGet(pnum, 2), "1934") == 0);
+	assert(strcmp(phnumGet(pnum, 3), "78934") == 0);
+	assert(phnumGet(pnum, 4) == NULL);
+	phnumDelete(pnum);
+
+	pnum = phfwdGetReverse(pf, "78934");
+	assert(strcmp(phnumGet(pnum, 0), "1238934") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "1934") == 0);
+  assert(strcmp(phnumGet(pnum, 2), "78934") == 0);
+	assert(phnumGet(pnum, 3) == NULL);
+	phnumDelete(pnum);
+
+	assert(phfwdAdd(pf, "78934", "2") == true);
+
+	pnum = phfwdReverse(pf, "78934");
+	assert(strcmp(phnumGet(pnum, 0), "1234") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "1238934") == 0);
+	assert(strcmp(phnumGet(pnum, 2), "1934") == 0);
+	assert(strcmp(phnumGet(pnum, 3), "78934") == 0);
+	assert(phnumGet(pnum, 4) == NULL);
+	phnumDelete(pnum);
+
+	pnum = phfwdGetReverse(pf, "78934");
+	assert(strcmp(phnumGet(pnum, 0), "1238934") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "1934") == 0);
+	assert(phnumGet(pnum, 2) == NULL);
+	phnumDelete(pnum);
+
+	assert(phfwdAdd(pf, "1238", "4") == true);
+	phfwdRemove(pf, "1234");
+
+	pnum = phfwdReverse(pf, "78934");
+	assert(strcmp(phnumGet(pnum, 0), "1234") == 0);
+	assert(strcmp(phnumGet(pnum, 1), "1238934") == 0);
+	assert(strcmp(phnumGet(pnum, 2), "1934") == 0);
+	assert(strcmp(phnumGet(pnum, 3), "78934") == 0);
+	assert(phnumGet(pnum, 4) == NULL);
+	phnumDelete(pnum);
+
+	pnum = phfwdGetReverse(pf, "78934");
+	assert(strcmp(phnumGet(pnum, 0), "1934") == 0);
+	assert(phnumGet(pnum, 1) == NULL);
+	phnumDelete(pnum);
+
+	phfwdDelete(pf);
+	printTestSuccess(806);
+
+  // Repeating numbers in result
+  pf = phfwdNew();
+  assert(phfwdAdd(pf, "1", "5") == true);
+  assert(phfwdAdd(pf, "11", "51") == true);
+  assert(phfwdAdd(pf, "111", "511") == true);
+
+  pnum = phfwdReverse(pf, "111");
+  assert(strcmp(phnumGet(pnum, 0), "111") == 0);
+  assert(phnumGet(pnum, 1) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(807);
+
+  phfwdDelete(pf);
+
+	printSection("Testing incorrect input in phfwdGetReverse");
+  pf = phfwdNew();
+
+  assert(phfwdGetReverse(NULL, "123") == NULL);
+  printTestSuccess(900);
+  pnum = phfwdGetReverse(pf, NULL);
+  assert(pnum != NULL);
+  assert(phnumGet(pnum, 0) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(901);
+  pnum = phfwdGetReverse(pf, "");
+  assert(pnum != NULL);
+  assert(phnumGet(pnum, 0) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(902);
+  pnum = phfwdGetReverse(pf, "94bs");
+  assert(pnum != NULL);
+  assert(phnumGet(pnum, 0) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(903);
+  pnum = phfwdGetReverse(pf, "abc");
+  assert(pnum != NULL);
+  assert(phnumGet(pnum, 0) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(904);
+  pnum = phfwdGetReverse(pf, ";");
+  assert(pnum != NULL);
+  assert(phnumGet(pnum, 0) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(905);
+  pnum = phfwdGetReverse(pf, "<>");
+  assert(pnum != NULL);
+  assert(phnumGet(pnum, 0) == NULL);
+  phnumDelete(pnum);
+  printTestSuccess(906);
+  pnum = phfwdGetReverse(pf, "?!");
+  assert(pnum != NULL);
+  assert(phnumGet(pnum, 0) == NULL);
+  phnumDelete(pnum);
+	printTestSuccess(907);
+
+  phfwdDelete(pf);
 }

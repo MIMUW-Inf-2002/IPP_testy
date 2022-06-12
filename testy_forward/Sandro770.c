@@ -26,7 +26,7 @@ void printGreeting() {
     printf("Testy rozpoczęte\n\n");
 }
 
-int main() {
+int main(void) {
 
     printGreeting();
 

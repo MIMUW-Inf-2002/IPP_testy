@@ -14,7 +14,6 @@ NORMAL=$(tput sgr0)
 C_RED="\033[0;31m"
 C_DEFAULT="\033[0m"
 
-SKIP_REV_FLAG=""
 SKIP_CMAKE_FLAG=""
 RUN_VALGRIND_FLAG=0
 
@@ -24,8 +23,7 @@ print_usage() {
   options="Options:
     -h   show this help message
     -c   remove test files
-    -s   skip tests for phfwdReverse()
-    -m   skip cmake and doc tests
+    -m   skip cmake tests
     -v   run tests with valgrind"
   printf "%s\n%s\n" "$header" "$options"
 }
@@ -54,32 +52,11 @@ test_cmake() {
 
 }
 
-test_doc() {
-  # Test CMake Release
-  mkdir tmp_doc_forward_test
-  cd tmp_doc_forward_test || exit
-  cmake  ../$SRC_DIR/..  > /dev/null
-  make > /dev/null
-  make doc 2> temp_message 1> /dev/null
-
-  if [ -s temp_message ]; then
-      printf "[ERROR] Documentation has warnings\n"
-    else
-      printf "[OK] Documentation has no warnings\n"
-    fi
-  make clean > temp_message
-  rm temp_message
-  cd ..
-  rm -r -f  tmp_doc_forward_test
-
-}
-
 # Check flags
 while getopts 'chsvm' FLAG; do
 	case "${FLAG}" in
 		c) clean; exit 0;;
 		h) print_usage; exit 0;;
-		s) SKIP_REV_FLAG="s";;
 		m) SKIP_CMAKE_FLAG="m";;
 		v) RUN_VALGRIND_FLAG=1;;
 		*) print_usage; exit 1;;
@@ -92,8 +69,7 @@ done
 SRC_DIR=${@:$#}
 
 # Notify user if skipping tests
-[ "$SKIP_CMAKE_FLAG" == "m" ] && printf "Skipping tests for cmake and doc\n"
-[ "$SKIP_REV_FLAG" == "s" ] && printf "Skipping tests for phfwdReverse()\n"
+[ "$SKIP_CMAKE_FLAG" == "m" ] && printf "Skipping tests for cmake\n"
 [ $RUN_VALGRIND_FLAG == 1 ] && printf "Running tests with valgrind\n"
 
 # Check if SRC_DIR exists
@@ -106,8 +82,6 @@ SRC_DIR=${@:$#}
 [ "$SKIP_CMAKE_FLAG" == "m" ] || test_cmake ''
 [ "$SKIP_CMAKE_FLAG" == "m" ] || test_cmake 'Release'
 [ "$SKIP_CMAKE_FLAG" == "m" ] || test_cmake 'Test'
-[ "$SKIP_CMAKE_FLAG" == "m" ] || test_doc
-
 
 # Compile and run tests
 SRC_FILES=()
@@ -145,9 +119,9 @@ do
 	
 	if [[ $RUN_VALGRIND_FLAG == 1 ]]
 	then
-		valgrind $VALGRIND_FLAGS ./${TEST%.c}.o $SKIP_REV_FLAG
+		valgrind $VALGRIND_FLAGS ./${TEST%.c}.o
 	else
-		time ./${TEST%.c}.o $SKIP_REV_FLAG
+		time ./${TEST%.c}.o
 	fi
 done
 
@@ -156,7 +130,7 @@ done
 #                           Instrumented tests                               #
 ##############################################################################
 INSTR_OUT="$TEST_DIR/instrumented.o"
-INSTR_IN="$TEST_DIR/adjusted_part1_tests.c"
+INSTR_IN="$TEST_DIR/official_tests.c"
 
 
 if [ -f $INSTR_IN ]
@@ -171,9 +145,9 @@ then
 	
 	if [[ $RUN_VALGRIND_FLAG == 1 ]]
 	then
-		valgrind $VALGRIND_FLAGS ./$INSTR_OUT $SKIP_REV_FLAG
+		valgrind $VALGRIND_FLAGS ./$INSTR_OUT
 	else
-		time ./$INSTR_OUT $SKIP_REV_FLAG
+		time ./$INSTR_OUT
 	fi
 fi
 
